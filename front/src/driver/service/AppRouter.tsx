@@ -1,10 +1,9 @@
-
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import HomePage from '../view/pages/HomePage';
+import DetailPage from '../view/pages/DetailPage';
+import Page404 from '../view/pages/Page404';
+import Layout from '../view/common/Layout/Layout';
 import React from 'react';
-import Layout from '../interactor/presentation/view/common/Layout/Layout';
-import HomePage from '../interactor/presentation/presenters/pages/HomePage';
-import DetailPage from '../interactor/presentation/presenters/pages/DetailPage';
-import Page404 from '../interactor/presentation/presenters/pages/Page404';
 
 const BrowserRouterComponent: React.FC = () => (
     <BrowserRouter>

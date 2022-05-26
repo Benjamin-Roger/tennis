@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRouter from '../../useCase/AppRouter';
+import AppRouter from './AppRouter';
 
 const App:React.FC = () => (
     <div className="app">

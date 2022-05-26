@@ -12,7 +12,6 @@ const containerStyles = {
 }
 
 const Layout: React.FC = () => (
-    //@ts-ignore
     <div style={layoutStyles}>
         <div style={containerStyles}>
             <main>
