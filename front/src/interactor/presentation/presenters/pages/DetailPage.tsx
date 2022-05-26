@@ -1,6 +1,7 @@
-import {useParams} from "react-router-dom";
+import {useParams} from 'react-router-dom';
+import React from 'react';
 
-const DetailPage = () => {
+const DetailPage:React.FC = () => {
     const {id} = useParams();
     return (<div>{id}</div>)
 };

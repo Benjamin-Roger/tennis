@@ -1,12 +1,10 @@
 import React from 'react';
-import AppRouter from "../../useCase/AppRouter";
+import AppRouter from '../../useCase/AppRouter';
 
-function App() {
-  return (
+const App:React.FC = () => (
     <div className="app">
-        <AppRouter />
+        <AppRouter/>
     </div>
-  );
-}
+);
 
 export default App;

@@ -1,14 +1,14 @@
-import {Outlet} from "react-router-dom";
-import React from "react";
+import {Outlet} from 'react-router-dom';
+import React from 'react';
 
 const layoutStyles = {
-    margin: "3rem",
+    margin: '3rem',
     flex: 1,
 }
 
 const containerStyles = {
-    margin: "0 auto",
-    maxWidth: "1600px",
+    margin: '0 auto',
+    maxWidth: '1600px',
 }
 
 const Layout: React.FC = () => (
