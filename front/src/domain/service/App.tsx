@@ -1,14 +1,10 @@
 import React from 'react';
-import './app.css';
+import AppRouter from "../../useCase/AppRouter";
 
 function App() {
   return (
     <div className="app">
-      <header className="header">
-      </header>
-      <main>
-
-      </main>
+        <AppRouter />
     </div>
   );
 }
