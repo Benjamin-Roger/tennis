@@ -1,13 +1,51 @@
+/*
+ * Global
+*/
+
+/* Fonts */
+@font-face {
+    font-family: "Mulish";
+    src: url("/public/fonts/Mulish/Mulish-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Mulish";
+    src: url("/public/fonts/Mulish/Mulish-Bold.ttf") format("truetype");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url("/public/fonts/Montserrat/Montserrat-Bold.ttf") format("truetype");
+}
+
+/* Variables */
+:root {
+    --primary: #F2753B;
+    --secondary: #EBAD65;
+    --black: rgba(0, 0, 0, .3);
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: url('/public/assets/images/bg.jpg');
+    background-attachment: fixed;
+    background-position: center right;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }

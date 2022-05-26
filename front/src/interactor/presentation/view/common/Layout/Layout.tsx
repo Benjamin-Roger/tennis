@@ -1,10 +1,24 @@
 import {Outlet} from "react-router-dom";
 import React from "react";
 
-const Layout: React.FC = () => <div>
-    <main>
-        <Outlet/>
-    </main>
-</div>;
+const layoutStyles = {
+    margin: "3rem",
+    flex: 1,
+}
+
+const containerStyles = {
+    margin: "0 auto",
+    maxWidth: "1600px",
+}
+
+const Layout: React.FC = () => (
+    //@ts-ignore
+    <div style={layoutStyles}>
+        <div style={containerStyles}>
+            <main>
+                <Outlet/>
+            </main>
+        </div>
+    </div>);
 
 export default Layout;
