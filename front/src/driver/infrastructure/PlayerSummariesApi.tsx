@@ -6,8 +6,10 @@ import {
     GetPlayerSummariesAPIResponseInterface
 } from "../../interface-adapter/gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface";
 import {
-    FilterPlayerSummariesRequestInterface
+    FilterPlayerSummariesRequestInterface,
+    FilterValue
 } from "../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface";
+import {Player} from "../../domain/entity/Player";
 
 
 export class PlayerSummariesApi implements PlayerSummariesApiInterface {
@@ -26,6 +28,20 @@ export class PlayerSummariesApi implements PlayerSummariesApiInterface {
         }
     }
 
+    filterByFields(player: Player, filter:FilterPlayerSummariesRequestInterface):Boolean {
+        const {fields, keyword} = filter;
+
+        return fields.some(field => {
+            if([FilterValue.FIRST_NAME, FilterValue.LAST_NAME].includes(field)) {
+                return player[field].toString().toLowerCase().includes(keyword.toLowerCase());
+            }
+            if(FilterValue.COUNTRY == field) {
+                return player.country.name.toString().toLowerCase().includes(keyword.toLowerCase());
+            }
+            return false;
+        });
+    }
+
     async getPlayerSummaries(filter: FilterPlayerSummariesRequestInterface | null): Promise<UpdatePlayerSummariesResponseInterface> {
         const playerSummariesResponse = await this.findAllPlayerSummaries()
             .then(this.convertToPlayerAdapter);
@@ -36,7 +52,7 @@ export class PlayerSummariesApi implements PlayerSummariesApiInterface {
 
         return {
             ...playerSummariesResponse,
-            players: playerSummariesResponse.players.filter(filter.callback)
+            players: playerSummariesResponse.players.filter((player) => this.filterByFields(player, filter))
         };
     }
 

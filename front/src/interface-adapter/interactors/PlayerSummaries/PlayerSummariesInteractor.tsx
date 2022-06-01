@@ -3,7 +3,7 @@ import {PlayerSummariesUseCase} from "../../../domain/useCase/PlayerSummaries/Pl
 import {PlayerSummariesApiInterface} from "../../gateway/PlayerSummaries/PlayerSummariesApiInterface";
 import {
     FilterKeyword,
-    FilterPlayerSummariesRequestInterface
+    FilterValue
 } from "../../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface";
 
 export class PlayerSummariesInteractor {
@@ -26,8 +26,9 @@ export class PlayerSummariesInteractor {
     }
 
     async getPlayerSummaries(keyword: FilterKeyword): Promise<void> {
-        const filterRequestDTO: FilterPlayerSummariesRequestInterface = {
-            callback: (p) => p.firstName.toLowerCase().includes(keyword.toLowerCase()) || p.lastName.toLowerCase().includes(keyword.toLowerCase()) || p.country.name.toLowerCase().includes(keyword.toLowerCase())
+        const filterRequestDTO = {
+            keyword,
+            fields: [FilterValue.FIRST_NAME, FilterValue.LAST_NAME, FilterValue.COUNTRY]
         };
 
         return await this.useCase.getPlayerSummaries(filterRequestDTO, this.presenter);

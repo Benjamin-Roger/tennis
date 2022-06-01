@@ -13,8 +13,8 @@ export class PlayerSummariesUseCase {
         return this.getPlayerSummaries(null, presenter);
     }
 
-    async getPlayerSummaries(request : FilterPlayerSummariesRequestInterface | null, presenter: PlayerSummariesPresenterInterface): Promise<void> {
-        const players = await this.gateway.getPlayerSummaries(request);
+    async getPlayerSummaries(filterRequest : FilterPlayerSummariesRequestInterface | null, presenter: PlayerSummariesPresenterInterface): Promise<void> {
+        const players = await this.gateway.getPlayerSummaries(filterRequest);
         return presenter.updatePlayerSummaries(players);
     }
 }

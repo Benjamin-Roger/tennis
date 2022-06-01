@@ -1,7 +1,12 @@
-import {Player} from "../../entity/Player";
-
 export type FilterKeyword = string;
 
+export enum FilterValue {
+    FIRST_NAME = "firstName",
+    LAST_NAME = "lastName",
+    COUNTRY = "country",
+}
+
 export interface FilterPlayerSummariesRequestInterface {
-    callback: (p: Player) => boolean
+    fields: FilterValue[],
+    keyword: string
 }
