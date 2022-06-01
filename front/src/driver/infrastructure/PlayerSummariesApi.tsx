@@ -1,13 +1,13 @@
-import {PlayerSummariesApiInterface} from '../../interface-adapter/gateway/PlayerSummaries/PlayerSummariesApiInterface';
+import {PlayerSummariesApiInterface} from "../../interface-adapter/gateway/PlayerSummaries/PlayerSummariesApiInterface";
 import {
     UpdatePlayerSummariesResponseInterface
-} from '../../domain/useCase/PlayerSummaries/UpdatePlayerSummariesResponseInterface';
+} from "../../domain/useCase/PlayerSummaries/UpdatePlayerSummariesResponseInterface";
 import {
     GetPlayerSummariesAPIResponseInterface
-} from '../../interface-adapter/gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface';
+} from "../../interface-adapter/gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface";
 import {
     FilterPlayerSummariesRequestInterface
-} from '../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface';
+} from "../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface";
 
 
 export class PlayerSummariesApi implements PlayerSummariesApiInterface {
@@ -70,7 +70,7 @@ export class PlayerSummariesApi implements PlayerSummariesApiInterface {
                     .then(res => res.json())
                     .then(resolve)
             } catch (e) {
-                reject('Error met when fetching data');
+                reject("Error met when fetching data");
             }
         })
     }

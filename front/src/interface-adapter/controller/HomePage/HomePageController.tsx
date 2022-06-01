@@ -1,7 +1,7 @@
-import {PlayerSummariesPresenter} from '../../presenter/PlayerSummaries/PlayerSummariesPresenter';
-import {PlayerSummariesApiInterface} from '../../gateway/PlayerSummaries/PlayerSummariesApiInterface';
-import {PlayerSummariesViewModel} from '../../viewModel/HomePage/HomeViewModel';
-import {PlayerSummariesInteractor} from '../../interactors/PlayerSummaries/PlayerSummariesInteractor';
+import {PlayerSummariesPresenter} from "../../presenter/PlayerSummaries/PlayerSummariesPresenter";
+import {PlayerSummariesApiInterface} from "../../gateway/PlayerSummaries/PlayerSummariesApiInterface";
+import {PlayerSummariesViewModel} from "../../viewModel/HomePage/HomeViewModel";
+import {PlayerSummariesInteractor} from "../../interactors/PlayerSummaries/PlayerSummariesInteractor";
 
 export class HomePageController {
     private _presenter: PlayerSummariesPresenter;

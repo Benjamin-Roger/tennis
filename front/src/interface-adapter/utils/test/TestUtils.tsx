@@ -1,5 +1,5 @@
-import {PlayerSummariesApi} from '../../../driver/infrastructure/PlayerSummariesApi';
-import {GetPlayerSummariesAPIResponseInterface} from '../../gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface';
+import {PlayerSummariesApi} from "../../../driver/infrastructure/PlayerSummariesApi";
+import {GetPlayerSummariesAPIResponseInterface} from "../../gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface";
 
 
 export class PlayerSummariesRepositoryMock extends PlayerSummariesApi {
@@ -7,7 +7,7 @@ export class PlayerSummariesRepositoryMock extends PlayerSummariesApi {
     mockResponse: GetPlayerSummariesAPIResponseInterface;
 
     constructor(mockResponse: GetPlayerSummariesAPIResponseInterface) {
-        super('fakeUrl');
+        super("fakeUrl");
         this.mockResponse = mockResponse;
     }
 

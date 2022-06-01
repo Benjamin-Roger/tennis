@@ -1,4 +1,4 @@
-import type {Player} from '../../../domain/entity/Player';
+import type {Player} from "../../../domain/entity/Player";
 
 export interface SinglePlayerSummary {
     id: number,
@@ -13,8 +13,8 @@ export interface PlayerStat {
 }
 
 export class PlayerSummariesViewModel {
-    title: string = 'Bienvenue dans l\'annuaire du tennis';
-    buttonLabel: string = 'Rechercher un joueur';
+    title: string = "Bienvenue dans l'annuaire du tennis";
+    buttonLabel: string = "Rechercher un joueur";
     players: Array<SinglePlayerSummary> = new Array<SinglePlayerSummary>();
 }
 
@@ -27,15 +27,15 @@ function usePlayerSummaryViewModel(player: Player): SinglePlayerSummary {
         stats:
             [
                 {
-                    label: 'Rank',
+                    label: "Rank",
                     data: player.data?.rank && `#${player.data.rank}`
                 },
                 {
-                    label: 'Points',
+                    label: "Points",
                     data: player.data?.points
                 },
                 {
-                    label: 'Country',
+                    label: "Country",
                     data: player.country.name
                 }
             ]

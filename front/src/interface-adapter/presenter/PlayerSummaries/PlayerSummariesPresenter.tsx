@@ -1,10 +1,10 @@
-import usePlayerSummaryViewModel, {PlayerSummariesViewModel} from '../../viewModel/HomePage/HomeViewModel';
+import usePlayerSummaryViewModel, {PlayerSummariesViewModel} from "../../viewModel/HomePage/HomeViewModel";
 import {
     PlayerSummariesPresenterInterface
-} from '../../../domain/useCase/PlayerSummaries/PlayerSummariesPresenterInterface';
+} from "../../../domain/useCase/PlayerSummaries/PlayerSummariesPresenterInterface";
 import {
     UpdatePlayerSummariesResponseInterface
-} from '../../../domain/useCase/PlayerSummaries/UpdatePlayerSummariesResponseInterface';
+} from "../../../domain/useCase/PlayerSummaries/UpdatePlayerSummariesResponseInterface";
 
 export class PlayerSummariesPresenter implements PlayerSummariesPresenterInterface {
 

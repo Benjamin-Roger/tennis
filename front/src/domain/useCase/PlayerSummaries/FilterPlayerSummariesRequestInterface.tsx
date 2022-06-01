@@ -1,4 +1,4 @@
-import {Player} from '../../entity/Player';
+import {Player} from "../../entity/Player";
 
 export type FilterKeyword = string;
 

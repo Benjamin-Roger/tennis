@@ -1,6 +1,6 @@
-import {PlayerSummariesPresenterInterface} from './PlayerSummariesPresenterInterface';
-import {FilterPlayerSummariesRequestInterface} from './FilterPlayerSummariesRequestInterface';
-import {PlayerSummariesGatewayInterface} from './PlayerSummariesGatewayInterface';
+import {PlayerSummariesPresenterInterface} from "./PlayerSummariesPresenterInterface";
+import {FilterPlayerSummariesRequestInterface} from "./FilterPlayerSummariesRequestInterface";
+import {PlayerSummariesGatewayInterface} from "./PlayerSummariesGatewayInterface";
 
 export class PlayerSummariesUseCase {
     gateway: PlayerSummariesGatewayInterface;

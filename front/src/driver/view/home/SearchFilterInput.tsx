@@ -1,5 +1,5 @@
-import React, {SetStateAction} from 'react';
-import {theme} from '../theme';
+import React, {SetStateAction} from "react";
+import {theme} from "../theme";
 
 type SearchFilterInputProps = {
     value:string;
@@ -8,15 +8,15 @@ type SearchFilterInputProps = {
 }
 
 const inputStyles = {
-    width: 'calc(100% - 1rem)',
+    width: "calc(100% - 1rem)",
     background: theme.color.black,
     color: theme.color.secondary,
-    padding: '1rem 0.5rem',
-    marginBottom: '3rem',
-    borderRadius: '.5rem',
-    fontWeight: 'bold',
-    border: 'none',
-    boxShadow: 'none'
+    padding: "1rem 0.5rem",
+    marginBottom: "3rem",
+    borderRadius: ".5rem",
+    fontWeight: "bold",
+    border: "none",
+    boxShadow: "none"
 
 }
 

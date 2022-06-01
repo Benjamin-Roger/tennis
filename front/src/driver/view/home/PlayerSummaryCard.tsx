@@ -1,33 +1,33 @@
-import {PlayerStat} from '../../../interface-adapter/viewModel/HomePage/HomeViewModel';
-import {PlayerStatCard} from './PlayerStatCard';
-import React from 'react';
-import {theme} from '../theme';
+import {PlayerStat} from "../../../interface-adapter/viewModel/HomePage/HomeViewModel";
+import {PlayerStatCard} from "./PlayerStatCard";
+import React from "react";
+import {theme} from "../theme";
 
 const containerStyles = {
-    margin: '1rem 0',
-    background: '#fff',
-    overflow: 'hidden',
-    borderRadius: '.2rem',
-    boxShadow: '.3rem .3rem .3rem var(--black)'
+    margin: "1rem 0",
+    background: "#fff",
+    overflow: "hidden",
+    borderRadius: ".2rem",
+    boxShadow: ".3rem .3rem .3rem var(--black)"
 }
 
 const wrapperStyles = {
-    margin: '.5rem .5rem 0 0',
-    width: '100%',
-    height: '8rem',
-    display: 'flex',
-    alignItems: 'center',
+    margin: ".5rem .5rem 0 0",
+    width: "100%",
+    height: "8rem",
+    display: "flex",
+    alignItems: "center",
 }
 
 const pictureContainerStyles = {
-    height: '100%',
+    height: "100%",
     flex: 1,
 }
 
 const pictureStyles = {
-    minHeight: '100%',
-    maxWidth: '100%',
-    objectFit: 'cover'
+    minHeight: "100%",
+    maxWidth: "100%",
+    objectFit: "cover"
 } as React.CSSProperties;
 
 const textContainerStyles = {
@@ -40,8 +40,8 @@ const nameStyles = {
 }
 
 const statContainerStyles = {
-    display: 'flex',
-    gap: '1rem'
+    display: "flex",
+    gap: "1rem"
 }
 type PlayerSummaryCardProps = {
     name: string;

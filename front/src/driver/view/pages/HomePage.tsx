@@ -1,26 +1,26 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {PlayerSummariesPresenter} from '../../../interface-adapter/presenter/PlayerSummaries/PlayerSummariesPresenter';
-import {PlayerSummariesApi} from '../../infrastructure/PlayerSummariesApi';
-import {SinglePlayerSummary} from '../../../interface-adapter/viewModel/HomePage/HomeViewModel';
-import {HomePageController} from '../../../interface-adapter/controller/HomePage/HomePageController';
-import {PlayerSummaryCard} from '../home/PlayerSummaryCard';
-import {SearchInputFilter} from '../home/SearchFilterInput';
-import {Helmet} from 'react-helmet';
+import React, {useCallback, useEffect, useState} from "react";
+import {PlayerSummariesPresenter} from "../../../interface-adapter/presenter/PlayerSummaries/PlayerSummariesPresenter";
+import {PlayerSummariesApi} from "../../infrastructure/PlayerSummariesApi";
+import {SinglePlayerSummary} from "../../../interface-adapter/viewModel/HomePage/HomeViewModel";
+import {HomePageController} from "../../../interface-adapter/controller/HomePage/HomePageController";
+import {PlayerSummaryCard} from "../home/PlayerSummaryCard";
+import {SearchInputFilter} from "../home/SearchFilterInput";
+import {Helmet} from "react-helmet";
 
 const containerStyles = {
-    width: '24rem',
-    maxWidth: '100%'
+    width: "24rem",
+    maxWidth: "100%"
 };
 
 
 const HomePage: React.FC = () => {
     const playerSummariesController = new HomePageController(
         new PlayerSummariesPresenter(),
-        new PlayerSummariesApi(process.env.REACT_APP_PLAYER_SUMMARIES_URL || 'http://localhost:8000/playerSummaries')
+        new PlayerSummariesApi(process.env.REACT_APP_PLAYER_SUMMARIES_URL || "http://localhost:8000/playerSummaries")
     );
     const {viewModel, playerSummariesInteractor} = playerSummariesController;
 
-    const [keyword, setKeyword] = useState<string>('');
+    const [keyword, setKeyword] = useState<string>("");
     const [players, setPlayers] = useState<Array<SinglePlayerSummary>>([]);
 
     const fetchPlayers = useCallback(async () => {

@@ -1,10 +1,10 @@
-import {PlayerSummariesPresenter} from '../../presenter/PlayerSummaries/PlayerSummariesPresenter';
-import {PlayerSummariesUseCase} from '../../../domain/useCase/PlayerSummaries/PlayerSummariesUseCase';
-import {PlayerSummariesApiInterface} from '../../gateway/PlayerSummaries/PlayerSummariesApiInterface';
+import {PlayerSummariesPresenter} from "../../presenter/PlayerSummaries/PlayerSummariesPresenter";
+import {PlayerSummariesUseCase} from "../../../domain/useCase/PlayerSummaries/PlayerSummariesUseCase";
+import {PlayerSummariesApiInterface} from "../../gateway/PlayerSummaries/PlayerSummariesApiInterface";
 import {
     FilterKeyword,
     FilterPlayerSummariesRequestInterface
-} from '../../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface';
+} from "../../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface";
 
 export class PlayerSummariesInteractor {
     private _presenter: PlayerSummariesPresenter;
