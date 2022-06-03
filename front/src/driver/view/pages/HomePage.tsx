@@ -1,11 +1,11 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {PlayerSummariesPresenter} from "../../../interface-adapter/presenter/PlayerSummaries/PlayerSummariesPresenter";
-import {PlayerSummariesApi} from "../../infrastructure/PlayerSummariesApi/PlayerSummariesApi";
 import {SinglePlayerSummary} from "../../../interface-adapter/viewModel/HomePage/HomeViewModel";
 import {HomePageController} from "../../../interface-adapter/controller/HomePage/HomePageController";
 import {PlayerSummaryCard} from "../home/PlayerSummaryCard";
 import {SearchInputFilter} from "../home/SearchFilterInput";
 import {Helmet} from "react-helmet";
+import {PlayerApi} from "../../api/PlayerApi";
 
 const containerStyles = {
     width: "24rem",
@@ -16,7 +16,7 @@ const containerStyles = {
 const HomePage: React.FC = () => {
     const playerSummariesController = new HomePageController(
         new PlayerSummariesPresenter(),
-        new PlayerSummariesApi(process.env.REACT_APP_PLAYER_SUMMARIES_URL || "http://localhost:8000/playerSummaries")
+        new PlayerApi(process.env.REACT_APP_BASE_API_URL || "http://localhost:8000/")
     );
     const {viewModel, playerSummariesInteractor} = playerSummariesController;
 
