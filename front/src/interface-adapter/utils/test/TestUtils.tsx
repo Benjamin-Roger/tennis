@@ -1,8 +1,8 @@
-import {PlayerSummariesApi} from "../../../driver/infrastructure/PlayerSummariesApi";
 import {GetPlayerSummariesAPIResponseInterface} from "../../gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface";
+import {PlayerApi} from "../../../driver/infrastructure/PlayerApi";
 
 
-export class PlayerSummariesRepositoryMock extends PlayerSummariesApi {
+export class PlayerSummariesRepositoryMock extends PlayerApi {
 
     mockResponse: GetPlayerSummariesAPIResponseInterface;
 

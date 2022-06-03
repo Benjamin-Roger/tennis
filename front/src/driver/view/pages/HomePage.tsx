@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {PlayerSummariesPresenter} from "../../../interface-adapter/presenter/PlayerSummaries/PlayerSummariesPresenter";
-import {PlayerSummariesApi} from "../../infrastructure/PlayerSummariesApi";
+import {PlayerSummariesApi} from "../../infrastructure/PlayerSummariesApi/PlayerSummariesApi";
 import {SinglePlayerSummary} from "../../../interface-adapter/viewModel/HomePage/HomeViewModel";
 import {HomePageController} from "../../../interface-adapter/controller/HomePage/HomePageController";
 import {PlayerSummaryCard} from "../home/PlayerSummaryCard";

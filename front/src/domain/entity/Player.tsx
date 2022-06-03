@@ -4,6 +4,7 @@ export interface PlayerStats {
     weight?: number,
     height?: number,
     age?: number,
+    birthday?: string,
     last?: [number]
 }
 export interface Player {
