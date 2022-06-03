@@ -1,26 +1,24 @@
 import {PlayerSummariesApiInterface} from "../../interface-adapter/gateway/PlayerSummaries/PlayerSummariesApiInterface";
-import {
-    GetPlayerSummariesAPIResponseInterface
-} from "../../interface-adapter/gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface";
 import {Player} from "../../domain/entity/Player";
 import {
     FilterPlayerSummariesRequestInterface,
     FilterValue
 } from "../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface";
-import {
-    UpdatePlayerSummariesResponseInterface
-} from "../../domain/useCase/PlayerSummaries/UpdatePlayerSummariesResponseInterface";
 import {PlayerDetailApiInterface} from "../../interface-adapter/gateway/PlayerDetail/PlayerDetailApiInterface";
 import {PlayerDetailRequestInterface} from "../../domain/useCase/PlayerDetail/PlayerDetailRequestInterface";
 import {GetPlayerDetailResponseInterface} from "../../domain/useCase/PlayerDetail/GetPlayerDetailResponseInterface";
 import {GetPlayerDetailApiResponse} from "./GetPlayerDetailApiResponse";
+import {
+    GetPlayerSummariesResponseInterface
+} from "../../domain/useCase/PlayerSummaries/GetPlayerSummariesResponseInterface";
+import {GetPlayerSummariesApiResponse} from "./GetPlayerSummariesApiResponse";
 
 export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiInterface {
     private readonly url: string;
     private playerSummariesUrl: string;
     private playerDetailUrl: string;
 
-    private playerSummariescache: GetPlayerSummariesAPIResponseInterface | null = null;
+    private playerSummariesCache: GetPlayerSummariesApiResponse | null = null;
 
     constructor(url: string) {
         this.url = url;
@@ -28,11 +26,12 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
         this.playerDetailUrl=`${this.url}${process.env.REACT_APP_PLAYER_DETAIL_PATH}`;
     }
 
-    async findAllPlayerSummaries(): Promise<GetPlayerSummariesAPIResponseInterface> {
-        if (this.playerSummariescache !== null) {
-            return Promise.resolve(this.playerSummariescache);
+    async findAllPlayerSummaries(): Promise<GetPlayerSummariesApiResponse> {
+        if (this.playerSummariesCache !== null) {
+            return Promise.resolve(this.playerSummariesCache);
         } else {
-            return await this.fetchAllPlayersSummaries();
+            this.playerSummariesCache = await this.fetchAllPlayersSummaries();
+            return this.playerSummariesCache;
         }
     }
 
@@ -50,9 +49,9 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
         });
     }
 
-    async getPlayerSummaries(filter: FilterPlayerSummariesRequestInterface | null): Promise<UpdatePlayerSummariesResponseInterface> {
+    async getPlayerSummaries(filter: FilterPlayerSummariesRequestInterface | null): Promise<GetPlayerSummariesResponseInterface> {
         const playerSummariesResponse = await this.findAllPlayerSummaries()
-            .then(this.convertPlayerSummaryDTOToPlayerAdapter);
+            .then(this.convertPlayerSummariesDTOToPlayerAdapter);
 
         if (filter === null) {
             return playerSummariesResponse;
@@ -64,7 +63,7 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
         };
     }
 
-    convertPlayerSummaryDTOToPlayerAdapter(playerDTO: GetPlayerSummariesAPIResponseInterface): UpdatePlayerSummariesResponseInterface {
+    convertPlayerSummariesDTOToPlayerAdapter(playerDTO: GetPlayerSummariesApiResponse): GetPlayerSummariesResponseInterface {
         try {
             return {
                 players: playerDTO.players.map(player => ({
@@ -87,10 +86,10 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
 
     }
 
-    async fetchAllPlayersSummaries(): Promise<GetPlayerSummariesAPIResponseInterface> {
-        return new Promise<GetPlayerSummariesAPIResponseInterface>((resolve, reject) => {
+    async fetchAllPlayersSummaries(): Promise<GetPlayerSummariesApiResponse> {
+        return new Promise<GetPlayerSummariesApiResponse>((resolve, reject) => {
             try {
-                fetch(this.url)
+                fetch(this.playerSummariesUrl)
                     .then(res => res.json())
                     .then(resolve)
             } catch (e) {

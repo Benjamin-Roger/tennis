@@ -3,8 +3,8 @@ import {PlayerSummariesUseCase} from "../../../domain/useCase/PlayerSummaries/Pl
 import {PlayerSummariesApiInterface} from "../../gateway/PlayerSummaries/PlayerSummariesApiInterface";
 import {
     FilterKeyword,
-    FilterValue
 } from "../../../domain/useCase/PlayerSummaries/FilterPlayerSummariesRequestInterface";
+import {PlayerSummaryFilterRequest} from "./PlayerSummaryFilterRequest";
 
 export class PlayerSummariesInteractor {
     private _presenter: PlayerSummariesPresenter;
@@ -26,12 +26,8 @@ export class PlayerSummariesInteractor {
     }
 
     async getPlayerSummaries(keyword: FilterKeyword): Promise<void> {
-        const filterRequestDTO = {
-            keyword,
-            fields: [FilterValue.FIRST_NAME, FilterValue.LAST_NAME, FilterValue.COUNTRY]
-        };
-
-        return await this.useCase.getPlayerSummaries(filterRequestDTO, this.presenter);
+        const filterRequest = new PlayerSummaryFilterRequest(keyword);
+        return await this.useCase.getPlayerSummaries(filterRequest, this.presenter);
     }
 
 }
