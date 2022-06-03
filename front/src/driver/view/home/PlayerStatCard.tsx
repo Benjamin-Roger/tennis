@@ -11,7 +11,7 @@ const labelStyles = {
 
 const dataStyles = {
     fontSize: theme.fontSizes.sm,
-    color: theme.color.secondary,
+    color: theme.color.primary,
     fontWeight: "bold",
 }
 

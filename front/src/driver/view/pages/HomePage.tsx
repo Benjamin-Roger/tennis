@@ -6,10 +6,12 @@ import {PlayerSummaryCard} from "../home/PlayerSummaryCard";
 import {SearchInputFilter} from "../home/SearchFilterInput";
 import {Helmet} from "react-helmet";
 import {PlayerApi} from "../../api/PlayerApi";
+import {Link} from "react-router-dom";
 
 const containerStyles = {
     width: "24rem",
-    maxWidth: "100%"
+    maxWidth: "100%",
+    marginTop: "3rem"
 };
 
 
@@ -55,11 +57,17 @@ const HomePage: React.FC = () => {
 
             <div style={containerStyles}>
 
-                <SearchInputFilter value={keyword} onChange={handleKeyword} placeholder={viewModel.buttonLabel} />
+                <SearchInputFilter value={keyword} onChange={handleKeyword} placeholder={viewModel.buttonLabel}/>
                 <div>
-                    {players.map(player => <PlayerSummaryCard key={player.id} name={player.name}
-                        picture={player.picture}
-                        stats={player.stats}/>)}
+                    {players.map(player => <Link
+                        to={`/player/${player.id}`}
+                        style={{"textDecoration": "none"}}
+                    >
+                        <PlayerSummaryCard key={player.id} name={player.name}
+                            picture={player.picture}
+                            stats={player.stats}/>
+                    </Link>
+                    )}
                 </div>
             </div>
         </>

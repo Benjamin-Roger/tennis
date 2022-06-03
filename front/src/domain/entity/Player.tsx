@@ -8,7 +8,7 @@ export interface PlayerStats {
     last?: [number]
 }
 export interface Player {
-    id: number,
+    id: string,
     firstName: string;
     lastName: string;
     shortName?: string;

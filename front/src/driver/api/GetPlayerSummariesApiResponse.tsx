@@ -3,7 +3,7 @@ import {
 } from "../../interface-adapter/gateway/PlayerSummaries/GetPlayerSummariesAPIResponseInterface";
 
 interface PlayerApiResponse {
-    id: number,
+    id: string,
     firstName: string,
     lastName: string,
     picture?: string,

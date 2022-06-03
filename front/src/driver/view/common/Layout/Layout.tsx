@@ -1,23 +1,13 @@
 import {Outlet} from "react-router-dom";
 import React from "react";
-
-const layoutStyles = {
-    margin: "3rem",
-    flex: 1,
-}
-
-const containerStyles = {
-    margin: "0 auto",
-    maxWidth: "1600px",
-}
+import Container from "./Container";
 
 const Layout: React.FC = () => (
-    <div style={layoutStyles}>
-        <div style={containerStyles}>
-            <main>
-                <Outlet/>
-            </main>
-        </div>
-    </div>);
+    <Container>
+        <main>
+            <Outlet/>
+        </main>
+    </Container>
+);
 
 export default Layout;

@@ -22,8 +22,8 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
 
     constructor(url: string) {
         this.url = url;
-        this.playerSummariesUrl=`${this.url}${process.env.REACT_APP_PLAYER_SUMMARIES_PATH}`;
-        this.playerDetailUrl=`${this.url}${process.env.REACT_APP_PLAYER_DETAIL_PATH}`;
+        this.playerSummariesUrl = `${this.url}${process.env.REACT_APP_PLAYER_SUMMARIES_PATH}`;
+        this.playerDetailUrl = `${this.url}${process.env.REACT_APP_PLAYER_DETAIL_PATH}`;
     }
 
     async findAllPlayerSummaries(): Promise<GetPlayerSummariesApiResponse> {
@@ -35,14 +35,14 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
         }
     }
 
-    filterByFields(player: Player, filter:FilterPlayerSummariesRequestInterface):Boolean {
+    filterByFields(player: Player, filter: FilterPlayerSummariesRequestInterface): Boolean {
         const {fields, keyword} = filter;
 
         return fields.some(field => {
-            if([FilterValue.FIRST_NAME, FilterValue.LAST_NAME].includes(field)) {
+            if ([FilterValue.FIRST_NAME, FilterValue.LAST_NAME].includes(field)) {
                 return player[field].toString().toLowerCase().includes(keyword.toLowerCase());
             }
-            if(FilterValue.COUNTRY == field) {
+            if (FilterValue.COUNTRY == field) {
                 return player.country.name.toString().toLowerCase().includes(keyword.toLowerCase());
             }
             return false;
@@ -88,14 +88,11 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
 
     async fetchAllPlayersSummaries(): Promise<GetPlayerSummariesApiResponse> {
         return new Promise<GetPlayerSummariesApiResponse>((resolve, reject) => {
-            try {
-                fetch(this.playerSummariesUrl)
-                    .then(res => res.json())
-                    .then(resolve)
-            } catch (e) {
-                reject("Error met when fetching data");
-            }
-        })
+            fetch(this.playerSummariesUrl)
+                .then(res => res.json())
+                .then(resolve)
+                .catch(e => reject(`Error met when fetching data ${e}`));
+        });
     }
 
     async getPlayerDetail(request: PlayerDetailRequestInterface): Promise<GetPlayerDetailResponseInterface> {
@@ -137,13 +134,12 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
     async fetchPlayerDetail(request: PlayerDetailRequestInterface): Promise<GetPlayerDetailApiResponse> {
         const builtUrl = this.playerDetailUrl.replace("%id%", request.id.toString());
         return new Promise<GetPlayerDetailApiResponse>((resolve, reject) => {
-            try {
-                fetch(builtUrl)
-                    .then(res => res.json())
-                    .then(resolve)
-            } catch (e) {
-                reject("Error met when fetching data");
-            }
+            fetch(builtUrl)
+                .then(res => res.json())
+                .then(resolve)
+                .catch(e => {
+                    reject(`Error met when fetching data ${e}`);
+                })
         })
     }
 }

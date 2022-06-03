@@ -6,22 +6,23 @@ export interface PlayerStat {
 }
 
 export class PlayerDetailViewModel {
-    id: number=0;
+    id: string="0";
     title: string="Fiche du joueur";
     firstName: string="";
     lastName: string="";
+    fullName: string="";
     playerPicture?: string;
     countryName?:string;
     countryCode?: string;
     countryPicture?: string;
     stats?: PlayerStat[];
 
-    static of(player:Player) {
+    static of(player:Player):PlayerDetailViewModel {
         const viewModel = new PlayerDetailViewModel();
         viewModel.id = player.id;
-        viewModel.title = `Fiche du joueur ${player.firstName} ${player.lastName}`;
         viewModel.firstName = player.firstName;
         viewModel.lastName = player.lastName;
+        viewModel.fullName = `${player.firstName} ${player.lastName}`;
         viewModel.playerPicture = player.picture;
         viewModel.countryName = player.country.name;
         viewModel.countryCode = player.country.code;
@@ -45,17 +46,18 @@ export class PlayerDetailViewModel {
             },
             {
                 label: "Birthday",
-                data: player.data?.birthday
+                data: player.data?.birthday && new Date(player.data.birthday).toLocaleDateString(),
             },
             {
                 label: "Weight",
-                data: player.data?.weight && player.data.weight/1000
+                data: player.data?.weight && `${player.data.weight/1000} kg`
             },
             {
                 label: "Height",
-                data: player.data?.height && player.data.height
+                data: player.data?.height && `${player.data.height} cm`
             }
         ];
+        viewModel.title = `Fiche du joueur ${viewModel.fullName}`;
 
         return viewModel;
     }

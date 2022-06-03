@@ -9,7 +9,7 @@ import {
 
 const mockAPIResponse: GetPlayerSummariesApiResponse = {
     players: [0, 1, 2, 3].map(i => ({
-        id: i,
+        id: i.toString(),
         firstName: "firstName " + i,
         lastName: "lastName " + i,
         data: {
@@ -57,7 +57,7 @@ describe("Testing player summaries API", () => {
 const mockPlayerSummariesApiResponse: GetPlayerSummariesApiResponse = {
     players: [
         {
-            id: 1,
+            id: "1",
             firstName: "Novak",
             lastName: "Djokovic",
             country: "Serbia",
@@ -67,7 +67,7 @@ const mockPlayerSummariesApiResponse: GetPlayerSummariesApiResponse = {
             }
         },
         {
-            id: 2,
+            id: "2",
             firstName: "Séréna",
             lastName: "Williams",
             country: "USA",

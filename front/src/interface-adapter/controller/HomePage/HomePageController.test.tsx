@@ -10,7 +10,7 @@ import {
 
 const mockResponse: GetPlayerSummariesResponseInterface = {
     players: [0, 1, 2, 3].map(i => ({
-        id: i,
+        id: i.toString(),
         firstName: "firstName " + i,
         lastName: "lastName " + i,
         data: {

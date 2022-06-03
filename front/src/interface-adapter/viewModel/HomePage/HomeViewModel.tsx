@@ -1,7 +1,7 @@
 import type {Player} from "../../../domain/entity/Player";
 
 export interface SinglePlayerSummary {
-    id: number,
+    id: string,
     name: string,
     picture?: string,
     stats: PlayerStat[]

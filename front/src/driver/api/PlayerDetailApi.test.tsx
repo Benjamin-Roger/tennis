@@ -4,7 +4,7 @@ import {PlayerApi} from "./PlayerApi";
 import {PlayerDetailRequestInterface} from "../../domain/useCase/PlayerDetail/PlayerDetailRequestInterface";
 
 const mockAPIResponse = new GetPlayerDetailApiResponse(
-    1,
+    "1",
     "Novak",
     "Djokovic",
     "https://data.latelier.co/training/tennis_stats/resources/Djokovic.png",
@@ -41,7 +41,7 @@ describe("Testing player detail API", () => {
         const url = server.getURL().toString();
         const playerDetailApi = new PlayerApi(url);
         const request: PlayerDetailRequestInterface = {
-            id: 1,
+            id: "1",
         }
         const response = await playerDetailApi.getPlayerDetail(request);
 

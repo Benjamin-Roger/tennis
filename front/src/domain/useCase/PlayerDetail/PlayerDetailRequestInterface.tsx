@@ -1,3 +1,3 @@
 export interface PlayerDetailRequestInterface {
-    id: number
+    id: string
 }
