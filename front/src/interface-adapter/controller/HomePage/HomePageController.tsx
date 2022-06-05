@@ -1,6 +1,6 @@
 import {PlayerSummariesPresenter} from "../../presenter/PlayerSummaries/PlayerSummariesPresenter";
 import {PlayerSummariesApiInterface} from "../../gateway/PlayerSummaries/PlayerSummariesApiInterface";
-import {PlayerSummariesViewModel} from "../../viewModel/HomePage/HomeViewModel";
+import {HomePageViewModel} from "../../viewModel/HomePage/HomeViewModel";
 import {PlayerSummariesInteractor} from "../../interactors/PlayerSummaries/PlayerSummariesInteractor";
 
 export class HomePageController {
@@ -26,7 +26,7 @@ export class HomePageController {
         return this._presenter;
     }
 
-    get viewModel():PlayerSummariesViewModel {
+    get viewModel():HomePageViewModel {
         return this.presenter.viewModel;
     }
 }

@@ -1,4 +1,4 @@
-import usePlayerSummaryViewModel, {PlayerSummariesViewModel} from "../../viewModel/HomePage/HomeViewModel";
+import usePlayerSummaryViewModel, {HomePageViewModel} from "../../viewModel/HomePage/HomeViewModel";
 import {
     PlayerSummariesPresenterInterface
 } from "../../../domain/useCase/PlayerSummaries/PlayerSummariesPresenterInterface";
@@ -8,9 +8,9 @@ import {
 
 export class PlayerSummariesPresenter implements PlayerSummariesPresenterInterface {
 
-    private _viewModel: PlayerSummariesViewModel = new PlayerSummariesViewModel();
+    private _viewModel: HomePageViewModel = new HomePageViewModel();
 
-    get viewModel(): PlayerSummariesViewModel {
+    get viewModel(): HomePageViewModel {
         return this._viewModel;
     }
 

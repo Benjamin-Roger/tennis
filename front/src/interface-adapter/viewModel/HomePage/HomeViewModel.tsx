@@ -12,7 +12,7 @@ export interface PlayerStat {
     data: string | number | undefined
 }
 
-export class PlayerSummariesViewModel {
+export class HomePageViewModel {
     title: string = "Bienvenue dans l'annuaire du tennis";
     buttonLabel: string = "Rechercher un joueur";
     players: Array<SinglePlayerSummary> = new Array<SinglePlayerSummary>();
