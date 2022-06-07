@@ -10,6 +10,7 @@
     "@types/node": "^16.11.36",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "framer-motion": "^6.3.10",
     "import": "^0.0.6",
     "jest-mock-server": "^0.0.5",
     "react": "^18.1.0",

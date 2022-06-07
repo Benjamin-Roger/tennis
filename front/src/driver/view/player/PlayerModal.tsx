@@ -1,6 +1,7 @@
 import {PlayerStat} from "../../../interface-adapter/viewModel/PlayerDetailPage/PlayerDetailViewModel";
 import {Link} from "react-router-dom";
 import React from "react";
+import {motion} from "framer-motion"
 import {PlayerStatCard} from "../home/PlayerStatCard";
 import Container from "../common/Layout/Container";
 import {theme} from "../theme";
@@ -107,6 +108,52 @@ const countryCodeStyle = {
     textIndent: "1.5rem"
 } as React.CSSProperties
 
+const animations: any = {
+    title: {
+        hidden: {
+            opacity: 0,
+            y: 10,
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+        }
+    },
+    statsContainer: {
+        hidden: {
+        },
+        visible: {
+            transition: {
+                delayChildren: .5
+            }
+        }
+    },
+    stats: {
+        hidden: {
+            opacity: 0,
+            y: 10,
+        },
+        visible: {
+            opacity: 1,
+            y: 0
+        }
+    },
+    picture: {
+        hidden: {
+            opacity: 0,
+            y: 30,
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+                delay: 1,
+                duration: .5
+            }
+        }
+    },
+}
+
 export const PlayerModal: React.FC<PlayerModalProps> = ({
     firstName,
     lastName,
@@ -126,19 +173,20 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
                 </div>
                 <section style={containerStyle}>
                     <div style={pictureContainerStyle}>
-                        <img style={pictureStyle} src={playerPicture} alt={lastName} title={fullName}/>
+                        <motion.img style={pictureStyle} src={playerPicture} alt={lastName} title={fullName} variants={animations.picture} initial="hidden" animate="visible"/>
                     </div>
                     <div className="hide-scrollbar" style={textContainerStyle}>
-                        <h1>
+                        <motion.h1 variants={animations.title} initial="hidden" animate="visible">
                             <span style={firstNameStyle}>{firstName}</span>
                             <br/>
                             <span style={lastNameStyle}>{lastName}</span>
-                        </h1>
-                        <div style={descriptionContainer}>
-                            {stats?.map(stat => stat.data && <div key={stat.label + stat.data}>
-                                <PlayerStatCard label={stat.label} data={stat.data}/>
-                            </div>)}
-                        </div>
+                        </motion.h1>
+                        <motion.div style={descriptionContainer} variants={animations.statsContainer} initial="hidden" animate="visible">
+                            {stats?.map(stat => stat.data &&
+                                <motion.div key={stat.label + stat.data} variants={animations.stats}>
+                                    <PlayerStatCard label={stat.label} data={stat.data}/>
+                                </motion.div>)}
+                        </motion.div>
                     </div>
                     <div style={extraInfoContainerStyle}>
                         <div style={countryInfoStyle}>
