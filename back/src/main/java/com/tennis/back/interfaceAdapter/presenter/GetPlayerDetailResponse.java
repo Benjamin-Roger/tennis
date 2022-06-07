@@ -105,7 +105,7 @@ public class GetPlayerDetailResponse {
             resStats.rank = playerStats.getRank();
 
             if (playerStats.getBirthday() != null) {
-                resStats.birthday = playerStats.getBirthday().atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE);
+                resStats.birthday = playerStats.getBirthday().format(DateTimeFormatter.ISO_LOCAL_DATE);
             }
 
             return resStats;

@@ -1,7 +1,5 @@
 package com.tennis.back.driver.repository;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerSex;
 import org.junit.Before;
@@ -15,13 +13,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 
+import static com.tennis.back.driver.repository.TestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -45,6 +42,8 @@ public class LocalMemoryPlayerRepositoryTest {
 
     @Autowired
     private PlayerLocalFileHandler playerLocalFileHandler;
+    @Autowired
+    private PlayerWikiRepository playerWikiRepository;
 
 
     @Test
@@ -63,12 +62,12 @@ public class LocalMemoryPlayerRepositoryTest {
     public void validApiResponse_WillBeStoredInCache() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
 
         // Mock server API call
-        MockRestServiceServer server = mockPlayerDataAPI();
+        MockRestServiceServer server = mockPlayerDataAPI("restTemplate", playerApiHandler);
         server.expect(ExpectedCount.once(), requestTo(new URI(properties.getPlayersApi())))
                 .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(getStringifiedDTO(), MediaType.APPLICATION_JSON));
+                .andRespond(withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
 
-        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler);
+        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler, playerWikiRepository);
 
         playerRepository.findAllPlayers(); // should not be called twice as its stored in cache
         playerRepository.findAllPlayers(); // should not be called twice as its stored in cache
@@ -77,51 +76,27 @@ public class LocalMemoryPlayerRepositoryTest {
         // Verify all expectations met
         server.verify();
 
-        assertThat(playerRepository.findAllPlayers().size()).isEqualTo(2);
+        assertThat(playerRepository.findAllPlayers().size()).isEqualTo(3);
     }
 
     @Test
     public void apiCallFailure_WillFallbackOnLocalFile() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
 
         // Mock server API call
-        MockRestServiceServer server = mockPlayerDataAPI();
-        server.expect(ExpectedCount.once(), requestTo(new URI(properties.getPlayersApi())))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withNoContent());
+        createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withNoContent());
         playerRepository.init();
 
         assertThat(playerRepository.findAllPlayers().size()).isEqualTo(5);
 
     }
 
-    private MockRestServiceServer mockPlayerDataAPI() throws NoSuchFieldException, IllegalAccessException, URISyntaxException {
-        Field reader = PlayerApiHandler.class.getDeclaredField("restTemplate");
-        reader.setAccessible(true);
-        RestTemplate restTemplate = (RestTemplate) reader.get(playerApiHandler);
-        MockRestServiceServer server = MockRestServiceServer.bindTo(restTemplate).build();
-        return server;
-    }
-
-    private String getStringifiedDTO() {
-        try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("static/players/api/headtohead.json")) {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.readValue(in, JsonNode.class);
-            return mapper.writeValueAsString(jsonNode);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Test
     public void playerDTOFromApi_WillBeConvertedToPlayerDAOFormat() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
 
         // Mock server API call
-        MockRestServiceServer server = mockPlayerDataAPI();
-        server.expect(ExpectedCount.once(), requestTo(new URI(properties.getPlayersApi())))
-                .andExpect(method(HttpMethod.GET))
-                .andRespond(withSuccess(getStringifiedDTO(), MediaType.APPLICATION_JSON));
+        createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
 
-        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler);
+        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler, playerWikiRepository);
 
         Player player = playerRepository.getPlayerById("52").get();
 
@@ -141,9 +116,35 @@ public class LocalMemoryPlayerRepositoryTest {
         assertThat(player.getStats().getLastResults().size()).isEqualTo(5);
     }
 
+    @Test
+    public void birthdayPresentInWikiRepository_shouldUpdatePlayer() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        // Mock servers API responses
+        // - from JSON API
+        createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
+        // - from CSV Wiki API
+        createMockServer("restTemplate", playerWikiRepository, properties.getMalePlayersWikiApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN))
+                .expect(requestTo(properties.getFemalePlayersWikiApi())).andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
+
+        Player malePlayer = playerRepository.getPlayerById("52").get();
+        assertThat(malePlayer.getStats().getAge()).isEqualTo(35);
+        assertThat(malePlayer.getStats().getBirthday()).isEqualTo("1987-05-22");
+
+        Player femalePlayer = playerRepository.getPlayerById("95").get();
+        assertThat(femalePlayer.getStats().getAge()).isEqualTo(42);
+        assertThat(femalePlayer.getStats().getBirthday()).isEqualTo("1980-06-17");
+    }
 
     @Test
-    public void missingBirthday_shouldBeFetchedFromBirthdayRepository() {
-        // assertThat(player.getStats().getBirthday()).isEqualTo("SER");
+    public void birthdayMissingFromWikiRepository_shouldKeepInitialValue() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        // Mock servers API responses
+        // - from JSON API
+        createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
+        // - from CSV Wiki API
+        createMockServer("restTemplate", playerWikiRepository, properties.getMalePlayersWikiApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN))
+                .expect(requestTo(properties.getFemalePlayersWikiApi())).andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
+
+        Player player = playerRepository.getPlayerById("102").get();
+        assertThat(player.getStats().getAge()).isEqualTo(37);
+        assertThat(player.getStats().getBirthday()).isNull();
     }
 }

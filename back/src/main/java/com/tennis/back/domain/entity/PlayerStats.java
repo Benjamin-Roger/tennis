@@ -1,6 +1,7 @@
 package com.tennis.back.domain.entity;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class PlayerStats {
     Integer weight;
     Integer height;
     Integer age;
-    Instant birthday;
+    LocalDate birthday;
     List<Integer> lastResults = new ArrayList<>();
 
     public Integer getRank() {
@@ -53,11 +54,11 @@ public class PlayerStats {
         this.age = age;
     }
 
-    public Instant getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Instant birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

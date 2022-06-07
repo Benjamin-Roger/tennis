@@ -7,6 +7,9 @@ import com.tennis.back.domain.entity.PlayerStats;
 import com.tennis.back.interfaceAdapter.gateway.GetPlayerRepositoryInterface;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,10 +19,12 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
     private Map<String, Player> playersCache = new HashMap<>();
     private PlayerApiHandler playerApiHandler;
     private PlayerLocalFileHandler playerLocalFileHandler;
+    private PlayerWikiRepository playerWikiRepository;
 
-    public LocalMemoryPlayerRepository(PlayerApiHandler playerApiHandler, PlayerLocalFileHandler playerLocalFileHandler) {
+    public LocalMemoryPlayerRepository(PlayerApiHandler playerApiHandler, PlayerLocalFileHandler playerLocalFileHandler, PlayerWikiRepository playerWikiRepository) {
         this.playerApiHandler = playerApiHandler;
         this.playerLocalFileHandler = playerLocalFileHandler;
+        this.playerWikiRepository = playerWikiRepository;
         init();
     }
 
@@ -73,7 +78,7 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
         player.setPicture(dto.picture);
         player.setSex(computePlayerSex(dto.sex));
         player.setCountry(computeCountry(dto.country));
-        player.setStats(computePlayerStats(dto.data));
+        player.setStats(computePlayerStats(dto));
         return player;
     }
 
@@ -96,18 +101,23 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
     }
 
 
-    private PlayerStats computePlayerStats(PlayerResponseDTO.Player.Data data) {
+    private PlayerStats computePlayerStats(PlayerResponseDTO.Player player) {
         PlayerStats stats = new PlayerStats();
-        stats.setAge(data.age);
-        stats.setHeight(data.height);
-        stats.setWeight(data.weight);
-        stats.setLastResults(data.last);
-        stats.setRank(data.rank);
-        stats.setPoints(data.points);
+        stats.setAge(player.data.age);
+        stats.setHeight(player.data.height);
+        stats.setWeight(player.data.weight);
+        stats.setLastResults(player.data.last);
+        stats.setRank(player.data.rank);
+        stats.setPoints(player.data.points);
 
+        Optional<WikiPlayer> wikiPlayer = playerWikiRepository.getPlayer(player.firstname, player.lastname, player.country.code);
+        wikiPlayer.ifPresent(p -> {
+            LocalDate birthday = LocalDate.parse(p.dob, DateTimeFormatter.BASIC_ISO_DATE);
+            Integer age = LocalDate.now().compareTo(birthday);
+            stats.setBirthday(birthday);
+            stats.setAge(age);
 
-        //TODO : add birthday from another repository
-
+        });
         return stats;
     }
 

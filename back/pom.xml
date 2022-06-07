@@ -15,7 +15,10 @@
 	<description>Back-End for Tennis annuary</description>
 	<properties>
 		<java.version>11</java.version>
+		<opencsv.version>5.5.2</opencsv.version>
 	</properties>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -33,6 +36,12 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>${opencsv.version}</version>
+		</dependency>
     </dependencies>
 
 	<build>
