@@ -1,4 +1,4 @@
-package com.tennis.back.driver.repository;
+package com.tennis.back.driver.repository.PlayerWtaAtpRepository;
 
 public class PlayerWtaAtp {
     public String nameFirst;

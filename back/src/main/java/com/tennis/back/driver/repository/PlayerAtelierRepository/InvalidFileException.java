@@ -1,4 +1,4 @@
-package com.tennis.back.driver.repository;
+package com.tennis.back.driver.repository.PlayerAtelierRepository;
 
 public class InvalidFileException extends RuntimeException {
     public InvalidFileException(Exception e) {

@@ -1,5 +1,6 @@
-package com.tennis.back.driver.repository;
+package com.tennis.back.driver.repository.PlayerAtelierRepository;
 
+import com.tennis.back.driver.repository.PlayerRepositoryProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 

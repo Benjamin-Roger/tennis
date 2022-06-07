@@ -1,7 +1,8 @@
-package com.tennis.back.driver.repository;
+package com.tennis.back.driver.repository.PlayerWtaAtpRepository;
 
-import com.tennis.back.utils.csvParser.CsvHttpMessageConverter;
-import com.tennis.back.utils.csvParser.CsvParser;
+import com.tennis.back.driver.repository.PlayerRepositoryProperties;
+import com.tennis.back.driver.web.controller.csvParser.CsvHttpMessageConverter;
+import com.tennis.back.driver.web.controller.csvParser.CsvParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;

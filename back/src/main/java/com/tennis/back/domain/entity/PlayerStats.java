@@ -1,18 +1,17 @@
 package com.tennis.back.domain.entity;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerStats {
-    Integer rank;
-    Integer points;
-    Integer weight;
-    Integer height;
-    Integer age;
-    LocalDate birthday;
-    List<Integer> lastResults = new ArrayList<>();
+    private Integer rank;
+    private Integer points;
+    private Integer weight;
+    private Integer height;
+    private Integer age;
+    private LocalDate birthday;
+    private List<Integer> lastResults = new ArrayList<>();
 
     public Integer getRank() {
         return rank;

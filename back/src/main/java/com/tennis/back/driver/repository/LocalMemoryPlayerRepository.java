@@ -4,6 +4,11 @@ import com.tennis.back.domain.entity.Country;
 import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerSex;
 import com.tennis.back.domain.entity.PlayerStats;
+import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerApiHandler;
+import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerLocalFileHandler;
+import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerResponseDTO;
+import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtp;
+import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtpRepository;
 import com.tennis.back.interfaceAdapter.gateway.GetPlayerRepositoryInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,20 +81,20 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
     private Player computePlayer(PlayerResponseDTO.Player dto) {
         Player player = new Player();
         player.setId(dto.getId());
-        player.setFirstName(dto.firstname);
-        player.setLastName(dto.lastname);
-        player.setShortName(dto.shortname);
-        player.setPicture(dto.picture);
-        player.setSex(computePlayerSex(dto.sex));
-        player.setCountry(computeCountry(dto.country));
+        player.setFirstName(dto.getFirstname());
+        player.setLastName(dto.getLastname());
+        player.setShortName(dto.getShortname());
+        player.setPicture(dto.getPicture());
+        player.setSex(computePlayerSex(dto.getSex()));
+        player.setCountry(computeCountry(dto.getCountry()));
         player.setStats(computePlayerStats(dto));
         return player;
     }
 
     private Country computeCountry(PlayerResponseDTO.Player.Country country) {
         Country playerCountry = new Country();
-        playerCountry.setCode(country.code);
-        playerCountry.setPicture(country.picture);
+        playerCountry.setCode(country.getCode());
+        playerCountry.setPicture(country.getPicture());
         return playerCountry;
     }
 
@@ -107,23 +112,23 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
 
     private PlayerStats computePlayerStats(PlayerResponseDTO.Player player) {
         PlayerStats stats = new PlayerStats();
-        stats.setAge(player.data.age);
-        stats.setHeight(player.data.height);
-        stats.setWeight(player.data.weight);
-        stats.setLastResults(player.data.last);
-        stats.setRank(player.data.rank);
-        stats.setPoints(player.data.points);
+        stats.setAge(player.getData().getAge());
+        stats.setHeight(player.getData().getHeight());
+        stats.setWeight(player.getData().getWeight());
+        stats.setLastResults(player.getData().getLast());
+        stats.setRank(player.getData().getRank());
+        stats.setPoints(player.getData().getPoints());
 
-        Optional<PlayerWtaAtp> extaInfoPlayer = playerWtaAtpRepository.getPlayer(player.firstname, player.lastname, player.country.code);
+        Optional<PlayerWtaAtp> extaInfoPlayer = playerWtaAtpRepository.getPlayer(player.getFirstname(), player.getLastname(), player.getCountry().getCode());
 
         extaInfoPlayer.ifPresentOrElse(p -> {
-                    LOGGER.info("[PlayerRepository] Player {} {} found !", player.firstname, player.lastname);
+                    LOGGER.info("[PlayerRepository] Player {} {} found !", player.getFirstname(), player.getLastname());
                     LocalDate birthday = LocalDate.parse(p.dob, DateTimeFormatter.BASIC_ISO_DATE);
                     Integer age = LocalDate.now().compareTo(birthday);
                     stats.setBirthday(birthday);
                     stats.setAge(age);
                 },
-                () -> LOGGER.info("[PlayerRepository] Player {} {} not found !", player.firstname, player.lastname)
+                () -> LOGGER.info("[PlayerRepository] Player {} {} not found !", player.getFirstname(), player.getLastname())
         );
 
         return stats;

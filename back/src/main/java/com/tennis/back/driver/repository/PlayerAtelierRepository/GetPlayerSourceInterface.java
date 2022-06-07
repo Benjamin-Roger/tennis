@@ -1,4 +1,4 @@
-package com.tennis.back.driver.repository;
+package com.tennis.back.driver.repository.PlayerAtelierRepository;
 
 import java.net.URISyntaxException;
 import java.util.List;

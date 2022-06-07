@@ -1,6 +1,7 @@
-package com.tennis.back.driver.repository;
+package com.tennis.back.driver.repository.PlayerAtelierRepository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tennis.back.driver.repository.PlayerRepositoryProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;

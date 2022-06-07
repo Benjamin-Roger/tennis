@@ -2,6 +2,9 @@ package com.tennis.back.driver.repository;
 
 import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerSex;
+import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerApiHandler;
+import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerLocalFileHandler;
+import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtpRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

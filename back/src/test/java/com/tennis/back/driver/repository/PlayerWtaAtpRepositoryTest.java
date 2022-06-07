@@ -1,5 +1,7 @@
 package com.tennis.back.driver.repository;
 
+import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtp;
+import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtpRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
