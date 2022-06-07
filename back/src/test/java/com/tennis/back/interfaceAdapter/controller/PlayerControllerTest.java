@@ -7,20 +7,21 @@ import com.tennis.back.domain.entity.PlayerSex;
 import com.tennis.back.domain.entity.PlayerStats;
 import com.tennis.back.interfaceAdapter.gateway.GetPlayerRepositoryInterface;
 import com.tennis.back.interfaceAdapter.gateway.PlayerGateway;
+import com.tennis.back.interfaceAdapter.gateway.PlayerRepositoryInterface;
 import com.tennis.back.interfaceAdapter.presenter.GetPlayerDetailResponse;
+import com.tennis.back.interfaceAdapter.presenter.GetPlayersSummariesResponse;
 import com.tennis.back.interfaceAdapter.presenter.PlayerPresenter;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class PlayerControllerTest {
-
     private Player player;
-    PlayerController playerController;
 
     @Before
     public void setup() {
@@ -69,17 +70,42 @@ public class PlayerControllerTest {
         assertThat(res.getStats().getWeight()).isEqualTo(player.getStats().getWeight());
         assertThat(res.getStats().getPoints()).isEqualTo(player.getStats().getPoints());
         assertThat(res.getStats().getRank()).isEqualTo(player.getStats().getRank());
+    }
 
+    @Test
+    public void getPlayersSummaries_updatesPresentWithPlayerSummaries() {
+        PlayerPresenter presenter = new PlayerPresenter();
+        PlayerController playerController = new PlayerController(new PlayerGateway(new MockGetPlayerRepository()), presenter);
+        playerController.getPlayerSummaries();
+
+        GetPlayersSummariesResponse res = presenter.getPlayerSummariesResponse();
+        assertThat(res).isNotNull();
+        assertThat(res.getPlayers().size()).isEqualTo(1);
+
+        GetPlayersSummariesResponse.PlayerSummary summary = res.getPlayers().get(0);
+        assertThat(summary.getId()).isEqualTo(player.getId());
+        assertThat(summary.getFirstName()).isEqualTo(player.getFirstName());
+        assertThat(summary.getLastName()).isEqualTo(player.getLastName());
+        assertThat(summary.getPicture()).isEqualTo(player.getPicture());
+        assertThat(summary.getCountryCode()).isEqualTo(player.getCountry().getCode());
+        assertThat(summary.getStats().getPoints()).isEqualTo(player.getStats().getPoints());
+        assertThat(summary.getStats().getRank()).isEqualTo(player.getStats().getRank());
     }
 
 
-    private class MockGetPlayerRepository implements GetPlayerRepositoryInterface {
+    private class MockGetPlayerRepository implements PlayerRepositoryInterface {
         @Override
         public Optional<Player> getPlayerById(String id) {
             if (player.getId().equals(id)) {
                 return Optional.of(player);
             }
             return Optional.empty();
+        }
+
+
+        @Override
+        public List<Player> getPlayers() {
+            return Collections.singletonList(player);
         }
     }
 

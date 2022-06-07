@@ -10,6 +10,8 @@ import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerResponseD
 import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtp;
 import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtpRepository;
 import com.tennis.back.interfaceAdapter.gateway.GetPlayerRepositoryInterface;
+import com.tennis.back.interfaceAdapter.gateway.GetPlayersRepositoryInterface;
+import com.tennis.back.interfaceAdapter.gateway.PlayerRepositoryInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface {
+public class LocalMemoryPlayerRepository implements PlayerRepositoryInterface {
 
     private Map<String, Player> playersCache = new HashMap<>();
     private PlayerApiHandler playerApiHandler;
@@ -38,19 +40,18 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
 
     @Override
     public Optional<Player> getPlayerById(String id) {
-        return Optional.ofNullable(getPlayers().get(id));
+        return Optional.ofNullable(getPlayersMap().get(id));
     }
 
+    public List<Player> getPlayers() {
+        return new ArrayList<>(getPlayersMap().values());
+    }
 
-    public Map<String, Player> getPlayers() {
+    public Map<String, Player> getPlayersMap() {
         if (playersCache.isEmpty()) {
             fetchPlayersData();
         }
         return playersCache;
-    }
-
-    public List<Player> findAllPlayers() {
-        return new ArrayList<>(getPlayers().values());
     }
 
     private void fetchPlayersData() {

@@ -71,14 +71,14 @@ public class LocalMemoryPlayerRepositoryTest {
 
         playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler, playerWtaAtpRepository);
 
-        playerRepository.findAllPlayers(); // should not be called twice as its stored in cache
-        playerRepository.findAllPlayers(); // should not be called twice as its stored in cache
-        playerRepository.findAllPlayers(); // should not be called twice as its stored in cache
+        playerRepository.getPlayers(); // should not be called twice as its stored in cache
+        playerRepository.getPlayers(); // should not be called twice as its stored in cache
+        playerRepository.getPlayers(); // should not be called twice as its stored in cache
 
         // Verify all expectations met
         server.verify();
 
-        assertThat(playerRepository.findAllPlayers().size()).isEqualTo(3);
+        assertThat(playerRepository.getPlayers().size()).isEqualTo(3);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class LocalMemoryPlayerRepositoryTest {
         createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withNoContent());
         playerRepository.init();
 
-        assertThat(playerRepository.findAllPlayers().size()).isEqualTo(5);
+        assertThat(playerRepository.getPlayers().size()).isEqualTo(5);
 
     }
 

@@ -7,8 +7,8 @@ public class Player {
     String shortName;
     PlayerSex sex;
     String picture;
-    Country country;
-    PlayerStats playerStats;
+    Country country = new Country();
+    PlayerStats playerStats = new PlayerStats();
 
     public String getId() {
         return id;

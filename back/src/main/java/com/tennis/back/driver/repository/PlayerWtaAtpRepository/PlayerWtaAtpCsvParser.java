@@ -2,7 +2,7 @@ package com.tennis.back.driver.repository.PlayerWtaAtpRepository;
 
 import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
 import com.opencsv.bean.MappingStrategy;
-import com.tennis.back.driver.web.controller.csvParser.DefaultCsvParser;
+import com.tennis.back.driver.web.utils.csvParser.DefaultCsvParser;
 
 import java.util.HashMap;
 import java.util.Map;

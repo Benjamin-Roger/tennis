@@ -1,4 +1,4 @@
-package com.tennis.back.domain.useCase;
+package com.tennis.back.domain.useCase.GetPlayerUseCase;
 
 public class GetPlayerRequest {
     private String id;

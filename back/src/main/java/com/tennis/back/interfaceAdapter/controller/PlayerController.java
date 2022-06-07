@@ -1,21 +1,25 @@
 package com.tennis.back.interfaceAdapter.controller;
 
-import com.tennis.back.domain.useCase.GetPlayerRequest;
-import com.tennis.back.domain.useCase.GetPlayerUseCase;
+import com.tennis.back.domain.useCase.GetPlayerUseCase.GetPlayerRequest;
+import com.tennis.back.domain.useCase.GetPlayerUseCase.GetPlayerUseCase;
+import com.tennis.back.domain.useCase.GetPlayersUseCase.GetPlayersUseCase;
 import com.tennis.back.interfaceAdapter.gateway.PlayerGateway;
 import com.tennis.back.interfaceAdapter.presenter.PlayerPresenter;
 
 public class PlayerController {
 
-    private PlayerGateway gateway;
+    private final PlayerGateway gateway;
 
-    private PlayerPresenter presenter;
-    private GetPlayerUseCase getPlayerUseCase;
+    private final PlayerPresenter presenter;
+    private final GetPlayerUseCase getPlayerUseCase;
+    private final GetPlayersUseCase getPlayersUseCase;
 
     public PlayerController(PlayerGateway gateway, PlayerPresenter presenter) {
         this.gateway = gateway;
         this.presenter = presenter;
         this.getPlayerUseCase = new GetPlayerUseCase(gateway);
+        this.getPlayersUseCase = new GetPlayersUseCase(gateway);
+
     }
 
     public void getPlayerDetail(String id) {
@@ -29,4 +33,7 @@ public class PlayerController {
         return presenter;
     }
 
+    public void getPlayerSummaries() {
+        getPlayersUseCase.execute(presenter);
+    }
 }

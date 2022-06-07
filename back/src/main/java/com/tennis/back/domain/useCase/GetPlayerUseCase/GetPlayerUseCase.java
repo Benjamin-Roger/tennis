@@ -1,11 +1,12 @@
-package com.tennis.back.domain.useCase;
+package com.tennis.back.domain.useCase.GetPlayerUseCase;
 
 import com.tennis.back.domain.entity.Player;
+import com.tennis.back.domain.useCase.NoPlayerFoundException;
 
 public class GetPlayerUseCase {
-    PlayerGatewayInterface gateway;
+    GetPlayerGatewayInterface gateway;
 
-    public GetPlayerUseCase(PlayerGatewayInterface gateway) {
+    public GetPlayerUseCase(GetPlayerGatewayInterface gateway) {
         this.gateway = gateway;
     }
 
