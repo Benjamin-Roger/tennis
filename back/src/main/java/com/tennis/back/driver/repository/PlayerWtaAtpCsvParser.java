@@ -7,21 +7,21 @@ import com.tennis.back.utils.csvParser.DefaultCsvParser;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WikiPlayerCsvParser extends DefaultCsvParser<WikiPlayer> {
-    private Class clazz = WikiPlayer.class;
+public class PlayerWtaAtpCsvParser extends DefaultCsvParser<PlayerWtaAtp> {
+    private Class clazz = PlayerWtaAtp.class;
 
-    public WikiPlayerCsvParser() {
-        super(WikiPlayer.class);
+    public PlayerWtaAtpCsvParser() {
+        super(PlayerWtaAtp.class);
     }
 
-    protected MappingStrategy<WikiPlayer> getMappingStrategy() {
+    protected MappingStrategy<PlayerWtaAtp> getMappingStrategy() {
         Map<String, String> mapping = new HashMap<>();
         mapping.put("name_first", "nameFirst");
         mapping.put("name_last", "nameLast");
         mapping.put("dob", "dob");
         mapping.put("ioc", "ioc");
 
-        HeaderColumnNameTranslateMappingStrategy<WikiPlayer> strategy =
+        HeaderColumnNameTranslateMappingStrategy<PlayerWtaAtp> strategy =
                 new HeaderColumnNameTranslateMappingStrategy<>();
         strategy.setColumnMapping(mapping);
         strategy.setType(this.clazz);

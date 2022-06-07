@@ -10,8 +10,8 @@ public class PlayerRepositoryProperties {
     private String fallbackFileLocation;
     private String playersApi;
 
-    private String malePlayersWikiApi;
-    private String femalePlayersWikiApi;
+    private String malePlayersAtpApi;
+    private String femalePlayersWtaApi;
 
     public String getFallbackFileLocation() {
         return fallbackFileLocation;
@@ -29,19 +29,19 @@ public class PlayerRepositoryProperties {
         this.playersApi = playersApi;
     }
 
-    public String getMalePlayersWikiApi() {
-        return malePlayersWikiApi;
+    public String getMalePlayersAtpApi() {
+        return malePlayersAtpApi;
     }
 
-    public void setMalePlayersWikiApi(String malePlayersWikiApi) {
-        this.malePlayersWikiApi = malePlayersWikiApi;
+    public void setMalePlayersAtpApi(String malePlayersAtpApi) {
+        this.malePlayersAtpApi = malePlayersAtpApi;
     }
 
-    public String getFemalePlayersWikiApi() {
-        return femalePlayersWikiApi;
+    public String getFemalePlayersWtaApi() {
+        return femalePlayersWtaApi;
     }
 
-    public void setFemalePlayersWikiApi(String femalePlayersWikiApi) {
-        this.femalePlayersWikiApi = femalePlayersWikiApi;
+    public void setFemalePlayersWtaApi(String femalePlayersWtaApi) {
+        this.femalePlayersWtaApi = femalePlayersWtaApi;
     }
 }

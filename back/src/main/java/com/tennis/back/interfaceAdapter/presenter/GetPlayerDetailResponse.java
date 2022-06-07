@@ -3,7 +3,6 @@ package com.tennis.back.interfaceAdapter.presenter;
 import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerStats;
 
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 public class GetPlayerDetailResponse {
@@ -39,13 +38,8 @@ public class GetPlayerDetailResponse {
     }
 
     public static class Country {
-        private String name;
         private String code;
         private String picture;
-
-        public String getName() {
-            return name;
-        }
 
         public String getCode() {
             return code;

@@ -6,10 +6,10 @@ import com.tennis.back.interfaceAdapter.gateway.PlayerGateway;
 import com.tennis.back.interfaceAdapter.presenter.GetPlayerDetailResponse;
 import com.tennis.back.interfaceAdapter.presenter.PlayerPresenter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping(value = "/player")
 public class PlayerRestController {
 
     private PlayerController controller;
@@ -18,8 +18,8 @@ public class PlayerRestController {
         this.controller = new PlayerController(new PlayerGateway(repository), new PlayerPresenter());
     }
 
-    @GetMapping("/player/{id}")
-    public GetPlayerDetailResponse getPlayerById(@PathVariable String id) {
+    @GetMapping("/{id}")
+    public @ResponseBody GetPlayerDetailResponse getPlayerById(@PathVariable String id) {
         this.controller.getPlayerDetail(id);
         return this.controller.getPresenter().getPlayerDetailResponse();
     }

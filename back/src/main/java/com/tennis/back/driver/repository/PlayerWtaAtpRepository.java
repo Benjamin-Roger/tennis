@@ -1,10 +1,9 @@
 package com.tennis.back.driver.repository;
 
-import com.opencsv.bean.CsvBindByPosition;
 import com.tennis.back.utils.csvParser.CsvHttpMessageConverter;
 import com.tennis.back.utils.csvParser.CsvParser;
-import com.tennis.back.utils.csvParser.DefaultCsvParser;
-import org.springframework.context.annotation.Bean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -16,23 +15,25 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class PlayerWikiRepository {
+public class PlayerWtaAtpRepository {
 
     private final PlayerRepositoryProperties properties;
     private final RestTemplate restTemplate = restTemplate();
-    private List<WikiPlayer> players = Collections.emptyList();
+    private final Logger LOGGER = LoggerFactory.getLogger(PlayerWtaAtpRepository.class);
+    private List<PlayerWtaAtp> players = Collections.emptyList();
 
-    public PlayerWikiRepository(PlayerRepositoryProperties properties) {
+    public PlayerWtaAtpRepository(PlayerRepositoryProperties properties) {
         this.properties = properties;
+        init();
     }
 
-    public CsvParser<WikiPlayer> csvParser() {
-        return new WikiPlayerCsvParser();
+    public CsvParser<PlayerWtaAtp> csvParser() {
+        return new PlayerWtaAtpCsvParser();
     }
 
     public RestTemplate restTemplate() {
         RestTemplate result = new RestTemplate();
-        CsvHttpMessageConverter<WikiPlayer> messageConverter = new CsvHttpMessageConverter<>(
+        CsvHttpMessageConverter<PlayerWtaAtp> messageConverter = new CsvHttpMessageConverter<>(
                 this.csvParser(),
                 MediaType.ALL
         );
@@ -40,10 +41,11 @@ public class PlayerWikiRepository {
         return result;
     }
 
-    public Optional<WikiPlayer> getPlayer(String firstName, String lastName, String countryCode) {
+    public Optional<PlayerWtaAtp> getPlayer(String firstName, String lastName, String countryCode) {
+        LOGGER.info("Looking for player {} {} {}", firstName, lastName, countryCode);
         return getPlayers()
                 .stream()
-                .filter(player -> firstName.matches(player.nameFirst) && lastName.matches(player.nameLast) && countryCode.matches(player.ioc))
+                .filter(player -> firstName.equalsIgnoreCase(player.nameFirst) && lastName.equalsIgnoreCase(player.nameLast) && countryCode.equalsIgnoreCase(player.ioc))
                 .findFirst();
     }
 
@@ -54,23 +56,23 @@ public class PlayerWikiRepository {
             headers.setAccept(Collections.singletonList(MediaType.TEXT_PLAIN));
             HttpEntity<Void> request = new HttpEntity<>(headers);
 
-            ResponseEntity<List<WikiPlayer>> malePlayers = restTemplate.exchange(
-                    properties.getMalePlayersWikiApi(),
+            ResponseEntity<List<PlayerWtaAtp>> malePlayers = restTemplate.exchange(
+                    properties.getMalePlayersAtpApi(),
                     HttpMethod.GET,
                     request,
                     new ParameterizedTypeReference<>() {
                     }
             );
 
-            ResponseEntity<List<WikiPlayer>> femalePlayers = restTemplate.exchange(
-                    properties.getFemalePlayersWikiApi(),
+            ResponseEntity<List<PlayerWtaAtp>> femalePlayers = restTemplate.exchange(
+                    properties.getFemalePlayersWtaApi(),
                     HttpMethod.GET,
                     request,
                     new ParameterizedTypeReference<>() {
                     }
             );
 
-            List<WikiPlayer> players = new ArrayList<>();
+            List<PlayerWtaAtp> players = new ArrayList<>();
             players.addAll(malePlayers.getBody());
             players.addAll(femalePlayers.getBody());
 
@@ -80,11 +82,16 @@ public class PlayerWikiRepository {
         }
     }
 
-    public List<WikiPlayer> getPlayers() {
+    public List<PlayerWtaAtp> getPlayers() {
         if (this.players.isEmpty()) {
             fetchAndLoadPlayers();
         }
 
         return this.players;
+    }
+
+    private void init() {
+        fetchAndLoadPlayers();
+        LOGGER.info("[PlayerWtaAtpRepository] Finished DB initialization");
     }
 }

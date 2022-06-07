@@ -12,6 +12,6 @@ public class PlayerPresenter implements PlayerPresenterInterface {
     }
 
     public GetPlayerDetailResponse getPlayerDetailResponse() {
-        return playerDetailResponse;
+        return this.playerDetailResponse;
     }
 }

@@ -16,7 +16,6 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 
 import static com.tennis.back.driver.repository.TestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -43,7 +42,7 @@ public class LocalMemoryPlayerRepositoryTest {
     @Autowired
     private PlayerLocalFileHandler playerLocalFileHandler;
     @Autowired
-    private PlayerWikiRepository playerWikiRepository;
+    private PlayerWtaAtpRepository playerWtaAtpRepository;
 
 
     @Test
@@ -67,7 +66,7 @@ public class LocalMemoryPlayerRepositoryTest {
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
 
-        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler, playerWikiRepository);
+        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler, playerWtaAtpRepository);
 
         playerRepository.findAllPlayers(); // should not be called twice as its stored in cache
         playerRepository.findAllPlayers(); // should not be called twice as its stored in cache
@@ -96,7 +95,7 @@ public class LocalMemoryPlayerRepositoryTest {
         // Mock server API call
         createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
 
-        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler, playerWikiRepository);
+        playerRepository = new LocalMemoryPlayerRepository(playerApiHandler, playerLocalFileHandler, playerWtaAtpRepository);
 
         Player player = playerRepository.getPlayerById("52").get();
 
@@ -117,13 +116,13 @@ public class LocalMemoryPlayerRepositoryTest {
     }
 
     @Test
-    public void birthdayPresentInWikiRepository_shouldUpdatePlayer() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+    public void birthdayPresentInWtaAtpRepository_shouldUpdatePlayer() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
         // Mock servers API responses
         // - from JSON API
         createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
-        // - from CSV Wiki API
-        createMockServer("restTemplate", playerWikiRepository, properties.getMalePlayersWikiApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN))
-                .expect(requestTo(properties.getFemalePlayersWikiApi())).andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
+        // - from CSV WTA/ATP API
+        createMockServer("restTemplate", playerWtaAtpRepository, properties.getMalePlayersAtpApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN))
+                .expect(requestTo(properties.getFemalePlayersWtaApi())).andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
 
         Player malePlayer = playerRepository.getPlayerById("52").get();
         assertThat(malePlayer.getStats().getAge()).isEqualTo(35);
@@ -135,13 +134,13 @@ public class LocalMemoryPlayerRepositoryTest {
     }
 
     @Test
-    public void birthdayMissingFromWikiRepository_shouldKeepInitialValue() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+    public void birthdayMissingFromWtaAtpRepository_shouldKeepInitialValue() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
         // Mock servers API responses
         // - from JSON API
         createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
-        // - from CSV Wiki API
-        createMockServer("restTemplate", playerWikiRepository, properties.getMalePlayersWikiApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN))
-                .expect(requestTo(properties.getFemalePlayersWikiApi())).andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
+        // - from CSV WTA/ATP API
+        createMockServer("restTemplate", playerWtaAtpRepository, properties.getMalePlayersAtpApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN))
+                .expect(requestTo(properties.getFemalePlayersWtaApi())).andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
 
         Player player = playerRepository.getPlayerById("102").get();
         assertThat(player.getStats().getAge()).isEqualTo(37);

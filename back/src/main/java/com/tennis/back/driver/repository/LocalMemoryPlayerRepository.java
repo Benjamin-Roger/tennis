@@ -5,9 +5,10 @@ import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerSex;
 import com.tennis.back.domain.entity.PlayerStats;
 import com.tennis.back.interfaceAdapter.gateway.GetPlayerRepositoryInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -19,12 +20,14 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
     private Map<String, Player> playersCache = new HashMap<>();
     private PlayerApiHandler playerApiHandler;
     private PlayerLocalFileHandler playerLocalFileHandler;
-    private PlayerWikiRepository playerWikiRepository;
+    private PlayerWtaAtpRepository playerWtaAtpRepository;
 
-    public LocalMemoryPlayerRepository(PlayerApiHandler playerApiHandler, PlayerLocalFileHandler playerLocalFileHandler, PlayerWikiRepository playerWikiRepository) {
+    private final Logger LOGGER = LoggerFactory.getLogger(LocalMemoryPlayerRepository.class);
+
+    public LocalMemoryPlayerRepository(PlayerApiHandler playerApiHandler, PlayerLocalFileHandler playerLocalFileHandler, PlayerWtaAtpRepository playerWtaAtpRepository) {
         this.playerApiHandler = playerApiHandler;
         this.playerLocalFileHandler = playerLocalFileHandler;
-        this.playerWikiRepository = playerWikiRepository;
+        this.playerWtaAtpRepository = playerWtaAtpRepository;
         init();
     }
 
@@ -51,6 +54,7 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
         try {
             players = playerApiHandler.getPlayers();
         } catch (Exception e) {
+            LOGGER.error("[PlayerRepository] The data could not be retrieved fron API, fallback on local file", e);
             players = playerLocalFileHandler.getPlayers();
         }
 
@@ -110,19 +114,24 @@ public class LocalMemoryPlayerRepository implements GetPlayerRepositoryInterface
         stats.setRank(player.data.rank);
         stats.setPoints(player.data.points);
 
-        Optional<WikiPlayer> wikiPlayer = playerWikiRepository.getPlayer(player.firstname, player.lastname, player.country.code);
-        wikiPlayer.ifPresent(p -> {
-            LocalDate birthday = LocalDate.parse(p.dob, DateTimeFormatter.BASIC_ISO_DATE);
-            Integer age = LocalDate.now().compareTo(birthday);
-            stats.setBirthday(birthday);
-            stats.setAge(age);
+        Optional<PlayerWtaAtp> extaInfoPlayer = playerWtaAtpRepository.getPlayer(player.firstname, player.lastname, player.country.code);
 
-        });
+        extaInfoPlayer.ifPresentOrElse(p -> {
+                    LOGGER.info("[PlayerRepository] Player {} {} found !", player.firstname, player.lastname);
+                    LocalDate birthday = LocalDate.parse(p.dob, DateTimeFormatter.BASIC_ISO_DATE);
+                    Integer age = LocalDate.now().compareTo(birthday);
+                    stats.setBirthday(birthday);
+                    stats.setAge(age);
+                },
+                () -> LOGGER.info("[PlayerRepository] Player {} {} not found !", player.firstname, player.lastname)
+        );
+
         return stats;
     }
 
     public void init() {
         fetchPlayersData();
+        LOGGER.info("[PlayerRepository] Finished DB initialization");
     }
 
     protected void clearCache() {

@@ -1,6 +1,6 @@
 package com.tennis.back.driver.repository;
 
-public class WikiPlayer {
+public class PlayerWtaAtp {
     public String nameFirst;
     public String nameLast;
     public String dob;

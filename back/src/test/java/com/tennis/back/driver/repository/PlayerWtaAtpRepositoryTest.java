@@ -21,10 +21,10 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @EnableConfigurationProperties
-public class PlayerWikiRepositoryTest {
+public class PlayerWtaAtpRepositoryTest {
 
     @Autowired
-    PlayerWikiRepository playerWikiRepository;
+    PlayerWtaAtpRepository playerWtaAtpRepository;
 
     @Autowired
     PlayerRepositoryProperties properties;
@@ -32,29 +32,29 @@ public class PlayerWikiRepositoryTest {
     @Test
     public void onStartUp_willLoadCsvFileFetched() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
         // Mock server API call
-        MockRestServiceServer server = createMockServer("restTemplate", playerWikiRepository, properties.getMalePlayersWikiApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
+        MockRestServiceServer server = createMockServer("restTemplate", playerWtaAtpRepository, properties.getMalePlayersAtpApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
         server
-                .expect(requestTo(properties.getFemalePlayersWikiApi()))
+                .expect(requestTo(properties.getFemalePlayersWtaApi()))
                 .andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
 
-        List<WikiPlayer> players = playerWikiRepository.getPlayers();
+        List<PlayerWtaAtp> players = playerWtaAtpRepository.getPlayers();
 
         assertThat(players.size()).isEqualTo(4);
     }
 
     @Test
-    public void getPlayerByFirstLastNameCountry_willReturnWikiPlayer() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+    public void getPlayerByFirstLastNameCountry_willReturnPlayer() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
         // Mock server API call
-        MockRestServiceServer server = createMockServer("restTemplate", playerWikiRepository, properties.getMalePlayersWikiApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
+        MockRestServiceServer server = createMockServer("restTemplate", playerWtaAtpRepository, properties.getMalePlayersAtpApi(), withSuccess(getMalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
         server
-                .expect(requestTo(properties.getFemalePlayersWikiApi()))
+                .expect(requestTo(properties.getFemalePlayersWtaApi()))
                 .andRespond(withSuccess(getFemalePlayerStringifiedDTO(), MediaType.TEXT_PLAIN));
 
-        Optional<WikiPlayer> malePlayer = playerWikiRepository.getPlayer("Novak", "Djokovic", "SRB");
+        Optional<PlayerWtaAtp> malePlayer = playerWtaAtpRepository.getPlayer("Novak", "Djokovic", "SRB");
         assertThat(malePlayer.isPresent()).isTrue();
         assertThat(malePlayer.get().dob).isEqualTo("19870522");
 
-        Optional<WikiPlayer> femalePlayer = playerWikiRepository.getPlayer("Venus", "Williams", "USA");
+        Optional<PlayerWtaAtp> femalePlayer = playerWtaAtpRepository.getPlayer("Venus", "Williams", "USA");
         assertThat(femalePlayer.isPresent()).isTrue();
         assertThat(femalePlayer.get().dob).isEqualTo("19800617");
     }
