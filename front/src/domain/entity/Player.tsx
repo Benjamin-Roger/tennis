@@ -15,7 +15,7 @@ export interface Player {
     sex?: string;
     picture?: string,
     country: {
-        name: string
+        name?: string
         code?: string,
         picture?: string,
     };

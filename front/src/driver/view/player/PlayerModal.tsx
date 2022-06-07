@@ -62,12 +62,15 @@ const lastNameStyle = {
 const pictureContainerStyle = {
     position: "relative",
     height: "100%",
+    display: "flex",
+    justifyContent: "center",
 } as React.CSSProperties
 
 const pictureStyle = {
-    position: "absolute",
     height: "100%",
-    right: "-50%",
+    maxWidth: "300%",
+    objectFit: "contain",
+    objectPosition: "bottom",
     filter: `drop-shadow(.5rem .5rem .5rem ${theme.color.black})`,
     WebkitFilter: `drop-shadow(.5rem .5rem .5rem ${theme.color.black})`
 } as React.CSSProperties
@@ -119,7 +122,7 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
         <div style={backgroundStyle}>
             <Container>
                 <div style={{textAlign: "center"}}>
-                    <div style={{width:"2rem", margin:"1rem auto"}}><Link to={"/"}><PlayerModalExit/></Link></div>
+                    <div style={{width: "2rem", margin: "1rem auto"}}><Link to={"/"}><PlayerModalExit/></Link></div>
                 </div>
                 <section style={containerStyle}>
                     <div style={pictureContainerStyle}>
@@ -132,14 +135,17 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
                             <span style={lastNameStyle}>{lastName}</span>
                         </h1>
                         <div style={descriptionContainer}>
-                            {stats?.map(stat => stat.data && <div>
-                                <PlayerStatCard key={stat.label + stat.data} label={stat.label} data={stat.data}/>
+                            {stats?.map(stat => stat.data && <div key={stat.label + stat.data}>
+                                <PlayerStatCard label={stat.label} data={stat.data}/>
                             </div>)}
                         </div>
                     </div>
                     <div style={extraInfoContainerStyle}>
                         <div style={countryInfoStyle}>
-                            <img style={countryPictureStyle} src={countryPicture} title={countryName}
+                            <img
+                                style={countryPictureStyle}
+                                src={countryPicture}
+                                title={countryName}
                                 alt={countryName}/>
                             <p style={countryCodeStyle}>{countryCode}</p>
                         </div>

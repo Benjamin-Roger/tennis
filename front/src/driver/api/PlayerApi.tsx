@@ -12,6 +12,7 @@ import {
     GetPlayerSummariesResponseInterface
 } from "../../domain/useCase/PlayerSummaries/GetPlayerSummariesResponseInterface";
 import {GetPlayerSummariesApiResponse} from "./GetPlayerSummariesApiResponse";
+import {CountryNameUtils} from "../service/CountryNameUtils";
 
 export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiInterface {
     private readonly url: string;
@@ -42,7 +43,7 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
             if ([FilterValue.FIRST_NAME, FilterValue.LAST_NAME].includes(field)) {
                 return player[field].toString().toLowerCase().includes(keyword.toLowerCase());
             }
-            if (FilterValue.COUNTRY == field) {
+            if (FilterValue.COUNTRY == field && player.country.name) {
                 return player.country.name.toString().toLowerCase().includes(keyword.toLowerCase());
             }
             return false;
@@ -76,12 +77,12 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
                         points: player.stats.points,
                     },
                     country: {
-                        name: player.countryCode
+                        name: CountryNameUtils.find(player.countryCode)
                     }
                 }))
             }
         } catch (e) {
-            throw new TypeError(`Error met when converting player data to player format ${e}`);
+            throw new TypeError(`Error met when converting player summaries to player format ${e}`);
         }
 
     }
@@ -118,11 +119,7 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
                         rank: playerDTO.stats.rank,
                         points: playerDTO.stats.points,
                     },
-                    country: {
-                        name: playerDTO.country.name,
-                        code: playerDTO.country.code,
-                        picture: playerDTO.country.picture,
-                    }
+                    country: computeCountry(playerDTO.country)
                 }
             }
         } catch (e) {
@@ -141,5 +138,17 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
                     reject(`Error met when fetching data ${e}`);
                 })
         })
+    }
+}
+
+function computeCountry(country: { code: string; picture: string }): { code: string; picture: string; name: string | undefined } {
+    const name = CountryNameUtils.find(country.code);
+    // Fix to solve the wrong data in the API
+    const incorrectPictureSrcPattern:RegExp = /USA/;
+    const picture = country.picture.match(incorrectPictureSrcPattern) ? country.picture.replace("png", "webp") : country.picture;
+    return {
+        name,
+        code: country.code,
+        picture,
     }
 }

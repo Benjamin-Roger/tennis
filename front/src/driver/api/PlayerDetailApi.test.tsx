@@ -17,8 +17,7 @@ const mockAPIResponse = new GetPlayerDetailApiResponse(
         height: 188
     },
     {
-        name: "Serbia",
-        code: "SER",
+        code: "SRB",
         picture: "https://data.latelier.co/training/tennis_stats/resources/Serbie.png"
     },
 );
@@ -49,7 +48,9 @@ describe("Testing player detail API", () => {
         expect(response.player.lastName).toEqual(mockAPIResponse.lastName);
         expect(response.player.id).toEqual(mockAPIResponse.id);
         expect(response.player.picture).toEqual(mockAPIResponse.picture);
-        expect(response.player.country).toEqual(mockAPIResponse.country);
+        expect(response.player.country.code).toEqual(mockAPIResponse.country.code);
+        expect(response.player.country.picture).toEqual(mockAPIResponse.country.picture);
+        expect(response.player.country.name).toEqual("Serbie");
         expect(response.player.data).toEqual(mockAPIResponse.stats);
 
         expect(route).toHaveBeenCalledTimes(1);

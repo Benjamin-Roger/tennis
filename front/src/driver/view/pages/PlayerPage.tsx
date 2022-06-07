@@ -28,7 +28,7 @@ const PlayerPage: React.FC = () => {
                 await playerDetailInteractor.getPlayerDetail({id});
                 setPlayer(controller.viewModel);
             } catch (e) {
-                console.error(e);
+                console.error(e); // eslint-disable-line no-console
                 setUnknownPlayer(true);
             }
         }

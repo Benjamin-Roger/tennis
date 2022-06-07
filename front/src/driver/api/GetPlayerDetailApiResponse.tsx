@@ -16,12 +16,11 @@ export class GetPlayerDetailApiResponse implements GetPlayerDetailAPIResponseInt
         weight: number
     };
     country: {
-        name: string,
         code: string,
         picture: string
     };
 
-    constructor(id: string, firstName: string, lastName: string, picture: string, stats: { rank: number; points: number; age: number; birthday: string; height: number; weight: number }, country: { name: string; code: string; picture: string }) {
+    constructor(id: string, firstName: string, lastName: string, picture: string, stats: { rank: number; points: number; age: number; birthday: string; height: number; weight: number }, country: { code: string; picture: string }) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

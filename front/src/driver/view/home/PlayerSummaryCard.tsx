@@ -60,7 +60,7 @@ export const PlayerSummaryCard: React.FC<PlayerSummaryCardProps> = (props) => {
                 <div style={textContainerStyles}>
                     <h2 style={nameStyles}>{name}</h2>
                     {stats && <div style={statContainerStyles}>
-                        {stats.map((stat) => <PlayerStatCard key={stat.label} label={stat.label} data={stat.data}/>)}
+                        {stats.map((stat) =>stat.data && <PlayerStatCard key={stat.label} label={stat.label} data={stat.data}/>)}
                     </div>}
                 </div>
             </div>
