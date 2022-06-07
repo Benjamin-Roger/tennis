@@ -12,11 +12,11 @@ const mockAPIResponse: GetPlayerSummariesApiResponse = {
         id: i.toString(),
         firstName: "firstName " + i,
         lastName: "lastName " + i,
-        data: {
+        stats: {
             rank: i + 1,
             points: 1200,
         },
-        country: "Serbia",
+        countryCode: "SRB",
     }))
 };
 
@@ -46,8 +46,8 @@ describe("Testing player summaries API", () => {
             expect(player.lastName).toEqual(mockAPIResponse.players[index].lastName);
             expect(player.id).toEqual(mockAPIResponse.players[index].id);
             expect(player.picture).toEqual(mockAPIResponse.players[index].picture);
-            expect(player.country.name).toEqual(mockAPIResponse.players[index].country);
-            expect(player.data).toEqual(mockAPIResponse.players[index].data);
+            expect(player.country.name).toEqual(mockAPIResponse.players[index].countryCode);
+            expect(player.data).toEqual(mockAPIResponse.players[index].stats);
         })
     });
 
@@ -60,8 +60,8 @@ const mockPlayerSummariesApiResponse: GetPlayerSummariesApiResponse = {
             id: "1",
             firstName: "Novak",
             lastName: "Djokovic",
-            country: "Serbia",
-            data: {
+            countryCode: "SRB",
+            stats: {
                 rank: 1,
                 points: 2,
             }
@@ -70,8 +70,8 @@ const mockPlayerSummariesApiResponse: GetPlayerSummariesApiResponse = {
             id: "2",
             firstName: "Séréna",
             lastName: "Williams",
-            country: "USA",
-            data: {
+            countryCode: "USA",
+            stats: {
                 rank: 1,
                 points: 2,
             }

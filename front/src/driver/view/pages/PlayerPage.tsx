@@ -28,6 +28,7 @@ const PlayerPage: React.FC = () => {
                 await playerDetailInteractor.getPlayerDetail({id});
                 setPlayer(controller.viewModel);
             } catch (e) {
+                console.error(e);
                 setUnknownPlayer(true);
             }
         }

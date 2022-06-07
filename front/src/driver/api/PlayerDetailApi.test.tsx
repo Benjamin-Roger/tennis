@@ -50,7 +50,7 @@ describe("Testing player detail API", () => {
         expect(response.player.id).toEqual(mockAPIResponse.id);
         expect(response.player.picture).toEqual(mockAPIResponse.picture);
         expect(response.player.country).toEqual(mockAPIResponse.country);
-        expect(response.player.data).toEqual(mockAPIResponse.data);
+        expect(response.player.data).toEqual(mockAPIResponse.stats);
 
         expect(route).toHaveBeenCalledTimes(1);
     });

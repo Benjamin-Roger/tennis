@@ -60,6 +60,7 @@ const HomePage: React.FC = () => {
                 <SearchInputFilter value={keyword} onChange={handleKeyword} placeholder={viewModel.buttonLabel}/>
                 <div>
                     {players.map(player => <Link
+                        key={player.id}
                         to={`/player/${player.id}`}
                         style={{"textDecoration": "none"}}
                     >

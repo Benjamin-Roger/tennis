@@ -57,7 +57,7 @@ export class PlayerDetailViewModel {
                 data: player.data?.height && `${player.data.height} cm`
             }
         ];
-        viewModel.title = `Fiche du joueur ${viewModel.fullName}`;
+        viewModel.title = `Fiche du joueur | ${viewModel.fullName}`;
 
         return viewModel;
     }

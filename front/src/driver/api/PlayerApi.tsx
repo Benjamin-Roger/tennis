@@ -72,11 +72,11 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
                     lastName: player.lastName,
                     picture: player.picture,
                     data: {
-                        rank: player.data.rank,
-                        points: player.data.points,
+                        rank: player.stats.rank,
+                        points: player.stats.points,
                     },
                     country: {
-                        name: player.country
+                        name: player.countryCode
                     }
                 }))
             }
@@ -111,12 +111,12 @@ export class PlayerApi implements PlayerSummariesApiInterface, PlayerDetailApiIn
                     lastName: playerDTO.lastName,
                     picture: playerDTO.picture,
                     data: {
-                        age: playerDTO.data.age,
-                        birthday: playerDTO.data.birthday,
-                        height: playerDTO.data.height,
-                        weight: playerDTO.data.weight,
-                        rank: playerDTO.data.rank,
-                        points: playerDTO.data.points,
+                        age: playerDTO.stats.age,
+                        birthday: playerDTO.stats.birthday,
+                        height: playerDTO.stats.height,
+                        weight: playerDTO.stats.weight,
+                        rank: playerDTO.stats.rank,
+                        points: playerDTO.stats.points,
                     },
                     country: {
                         name: playerDTO.country.name,

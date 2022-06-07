@@ -7,11 +7,11 @@ interface PlayerApiResponse {
     firstName: string,
     lastName: string,
     picture?: string,
-    data: {
+    stats: {
         rank: number,
         points: number
     },
-    country: string
+    countryCode: string
 }
 
 
