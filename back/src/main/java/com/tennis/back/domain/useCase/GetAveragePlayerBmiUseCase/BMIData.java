@@ -1,6 +1,6 @@
 package com.tennis.back.domain.useCase.GetAveragePlayerBmiUseCase;
 
 public class BMIData {
-    Integer weight;
-    Integer height;
+    public Integer weight;
+    public Integer height;
 }

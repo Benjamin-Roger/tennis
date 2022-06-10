@@ -5,7 +5,8 @@ import com.tennis.back.domain.entity.Country;
 import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerSex;
 import com.tennis.back.domain.entity.PlayerStats;
-import com.tennis.back.interfaceAdapter.gateway.GetPlayerRepositoryInterface;
+import com.tennis.back.domain.useCase.GetAveragePlayerBmiUseCase.BMIData;
+import com.tennis.back.domain.useCase.GetHighestCountryWinRatioUseCase.WinData;
 import com.tennis.back.interfaceAdapter.gateway.PlayerGateway;
 import com.tennis.back.interfaceAdapter.gateway.PlayerRepositoryInterface;
 import com.tennis.back.interfaceAdapter.presenter.GetPlayerDetailResponse;
@@ -106,6 +107,21 @@ public class PlayerControllerTest {
         @Override
         public List<Player> getPlayers() {
             return Collections.singletonList(player);
+        }
+
+        @Override
+        public List<BMIData> getPlayersBmiData() {
+            return null;
+        }
+
+        @Override
+        public List<WinData> getPlayersLastResults() {
+            return null;
+        }
+
+        @Override
+        public List<Integer> getPlayersHeight() {
+            return null;
         }
     }
 

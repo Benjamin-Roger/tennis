@@ -1,4 +1,4 @@
 package com.tennis.back.interfaceAdapter.gateway;
 
-public interface PlayerRepositoryInterface extends GetPlayerRepositoryInterface, GetPlayersRepositoryInterface {}
+public interface PlayerRepositoryInterface extends GetPlayerRepositoryInterface, GetPlayersRepositoryInterface, GetStatsRepositoryInterface {}
 

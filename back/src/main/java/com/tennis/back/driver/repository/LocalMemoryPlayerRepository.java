@@ -4,13 +4,14 @@ import com.tennis.back.domain.entity.Country;
 import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerSex;
 import com.tennis.back.domain.entity.PlayerStats;
+import com.tennis.back.domain.useCase.GetAveragePlayerBmiUseCase.BMIData;
+import com.tennis.back.domain.useCase.GetHighestCountryWinRatioUseCase.WinData;
 import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerApiHandler;
 import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerLocalFileHandler;
 import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerResponseDTO;
 import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtp;
 import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtpRepository;
-import com.tennis.back.interfaceAdapter.gateway.GetPlayerRepositoryInterface;
-import com.tennis.back.interfaceAdapter.gateway.GetPlayersRepositoryInterface;
+import com.tennis.back.interfaceAdapter.gateway.GetStatsRepositoryInterface;
 import com.tennis.back.interfaceAdapter.gateway.PlayerRepositoryInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +23,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class LocalMemoryPlayerRepository implements PlayerRepositoryInterface {
+public class LocalMemoryPlayerRepository implements PlayerRepositoryInterface, GetStatsRepositoryInterface {
 
     private Map<String, Player> playersCache = new HashMap<>();
-    private PlayerApiHandler playerApiHandler;
-    private PlayerLocalFileHandler playerLocalFileHandler;
-    private PlayerWtaAtpRepository playerWtaAtpRepository;
+    final private PlayerApiHandler playerApiHandler;
+    final private PlayerLocalFileHandler playerLocalFileHandler;
+    final private PlayerWtaAtpRepository playerWtaAtpRepository;
 
     private final Logger LOGGER = LoggerFactory.getLogger(LocalMemoryPlayerRepository.class);
 
@@ -142,5 +143,40 @@ public class LocalMemoryPlayerRepository implements PlayerRepositoryInterface {
 
     protected void clearCache() {
         this.playersCache = new HashMap<>();
+    }
+
+    @Override
+    public List<BMIData> getPlayersBmiData() {
+        return getPlayers()
+                .stream()
+                .map(player -> {
+                    BMIData data = new BMIData();
+                    data.height = player.getStats().getHeight();
+                    data.weight = player.getStats().getWeight();
+                    return data;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<WinData> getPlayersLastResults() {
+        return getPlayers()
+                .stream()
+                .map(player -> {
+                    WinData data = new WinData();
+                    data.setLastResults(player.getStats().getLastResults());
+                    data.setCountryCode(player.getCountry().getCode());
+                    return data;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Integer> getPlayersHeight() {
+        return getPlayers()
+                .stream()
+                .map(player -> player.getStats().getHeight())
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 }

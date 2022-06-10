@@ -45,7 +45,7 @@ public class GetPlayersMedianHeightUseCaseTest {
         assertThat(presenter.response.getPlayersMedianHeight()).isEqualTo(140);
     }
 
-    private class MockPlayerHeightGateway implements GetPlayersMedianHeightGatewayInterface {
+    private class MockPlayerHeightGateway implements GetPlayersHeightGatewayInterface {
 
         private final List<Integer> mockedHeights;
 

@@ -6,9 +6,9 @@ import java.util.List;
 
 public class GetPlayersMedianHeightUseCase {
 
-    private final GetPlayersMedianHeightGatewayInterface gateway;
+    private final GetPlayersHeightGatewayInterface gateway;
 
-    public GetPlayersMedianHeightUseCase(GetPlayersMedianHeightGatewayInterface gateway) {
+    public GetPlayersMedianHeightUseCase(GetPlayersHeightGatewayInterface gateway) {
         this.gateway = gateway;
     }
 

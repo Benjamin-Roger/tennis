@@ -2,6 +2,8 @@ package com.tennis.back.driver.repository;
 
 import com.tennis.back.domain.entity.Player;
 import com.tennis.back.domain.entity.PlayerSex;
+import com.tennis.back.domain.useCase.GetAveragePlayerBmiUseCase.BMIData;
+import com.tennis.back.domain.useCase.GetHighestCountryWinRatioUseCase.WinData;
 import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerApiHandler;
 import com.tennis.back.driver.repository.PlayerAtelierRepository.PlayerLocalFileHandler;
 import com.tennis.back.driver.repository.PlayerWtaAtpRepository.PlayerWtaAtpRepository;
@@ -19,6 +21,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import static com.tennis.back.driver.repository.TestUtils.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -46,6 +49,8 @@ public class LocalMemoryPlayerRepositoryTest {
     private PlayerLocalFileHandler playerLocalFileHandler;
     @Autowired
     private PlayerWtaAtpRepository playerWtaAtpRepository;
+
+    private final Integer API_MOCK_LIST_LENGTH = 3;
 
 
     @Test
@@ -78,7 +83,7 @@ public class LocalMemoryPlayerRepositoryTest {
         // Verify all expectations met
         server.verify();
 
-        assertThat(playerRepository.getPlayers().size()).isEqualTo(3);
+        assertThat(playerRepository.getPlayers().size()).isEqualTo(API_MOCK_LIST_LENGTH);
     }
 
     @Test
@@ -148,5 +153,41 @@ public class LocalMemoryPlayerRepositoryTest {
         Player player = playerRepository.getPlayerById("102").get();
         assertThat(player.getStats().getAge()).isEqualTo(37);
         assertThat(player.getStats().getBirthday()).isNull();
+    }
+
+    @Test
+    public void getPlayerHeights_shouldReturnAllHeightsFromAllPlayers() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
+
+        List<Integer> heights = playerRepository.getPlayersHeight();
+
+        assertThat(heights.size()).isEqualTo(API_MOCK_LIST_LENGTH);
+        assertThat(heights.containsAll(List.of(188, 175, 185 ))).isTrue();
+    }
+
+    @Test
+    public void getBmiData_shouldReturnAllWeightAndHeightFromAllPlayers() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
+
+        List<BMIData> bmiDataList = playerRepository.getPlayersBmiData();
+
+        assertThat(bmiDataList.size()).isEqualTo(API_MOCK_LIST_LENGTH);
+        assertThat(bmiDataList.stream().anyMatch(data -> data.height.equals(188) && data.weight.equals(80000))).isTrue(); // Novak D
+        assertThat(bmiDataList.stream().anyMatch(data -> data.height.equals(175) && data.weight.equals(72000))).isTrue(); // Serena W
+        assertThat(bmiDataList.stream().anyMatch(data -> data.height.equals(185) && data.weight.equals(74000))).isTrue(); // Venus W
+
+    }
+
+    @Test
+    public void getWinRatio_shouldReturnLastResultsFromAllPlayers() throws URISyntaxException, NoSuchFieldException, IllegalAccessException {
+        createMockServer("restTemplate", playerApiHandler, properties.getPlayersApi(), withSuccess(getStringifiedJsonDTO("static/players/api/headtohead.json"), MediaType.APPLICATION_JSON));
+
+        List<WinData> winDataList = playerRepository.getPlayersLastResults();
+
+        assertThat(winDataList.size()).isEqualTo(API_MOCK_LIST_LENGTH);
+        assertThat(winDataList.stream().anyMatch(data -> data.getCountryCode().equals("SRB") && data.getLastResults().equals(List.of(1,1,1,1,1)))).isTrue(); // Novak D
+        assertThat(winDataList.stream().anyMatch(data -> data.getCountryCode().equals("USA") && data.getLastResults().equals(List.of(0,1,1,1,0)))).isTrue(); // Serena W
+        assertThat(winDataList.stream().anyMatch(data -> data.getCountryCode().equals("USA") && data.getLastResults().equals(List.of(0,1,0,0,1)))).isTrue(); // Venus W
+
     }
 }
