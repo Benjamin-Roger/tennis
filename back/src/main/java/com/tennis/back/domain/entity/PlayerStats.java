@@ -7,8 +7,8 @@ import java.util.List;
 public class PlayerStats {
     private Integer rank;
     private Integer points;
-    private Integer weight;
-    private Integer height;
+    private Integer weight; // in grams
+    private Integer height; // centimeters
     private Integer age;
     private LocalDate birthday;
     private List<Integer> lastResults = new ArrayList<>();
