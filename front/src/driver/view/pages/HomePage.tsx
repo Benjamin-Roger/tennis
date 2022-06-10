@@ -2,17 +2,17 @@ import React, {useCallback, useEffect, useState} from "react";
 import {PlayerSummariesPresenter} from "../../../interface-adapter/presenter/PlayerSummaries/PlayerSummariesPresenter";
 import {SinglePlayerSummary} from "../../../interface-adapter/viewModel/HomePage/HomeViewModel";
 import {HomePageController} from "../../../interface-adapter/controller/HomePage/HomePageController";
-import {PlayerSummaryCard} from "../home/PlayerSummaryCard";
 import {SearchInputFilter} from "../home/SearchFilterInput";
 import {Helmet} from "react-helmet";
 import {PlayerApi} from "../../api/PlayerApi";
-import {Link} from "react-router-dom";
+import {PlayerCards} from "./PlayerCards";
 
 const containerStyles = {
     width: "24rem",
     maxWidth: "100%",
     marginTop: "3rem"
 };
+
 
 
 const HomePage: React.FC = () => {
@@ -58,18 +58,7 @@ const HomePage: React.FC = () => {
             <div style={containerStyles}>
 
                 <SearchInputFilter value={keyword} onChange={handleKeyword} placeholder={viewModel.buttonLabel}/>
-                <div>
-                    {players.map(player => <Link
-                        key={player.id}
-                        to={`/player/${player.id}`}
-                        style={{"textDecoration": "none"}}
-                    >
-                        <PlayerSummaryCard key={player.id} name={player.name}
-                            picture={player.picture}
-                            stats={player.stats}/>
-                    </Link>
-                    )}
-                </div>
+                {players && players.length > 0 && <PlayerCards players={players}/>}
             </div>
         </>
     )
