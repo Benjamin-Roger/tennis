@@ -63,6 +63,6 @@ export class PlayerDetailViewModel {
     }
 }
 
-export function usePlayerDetailViewModel(player: Player): PlayerDetailViewModel {
+export function makeViewablePlayerDetail(player: Player): PlayerDetailViewModel {
     return PlayerDetailViewModel.of(player);
 }

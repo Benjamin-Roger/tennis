@@ -67,7 +67,7 @@ test("Player detail page correctly shows information of the player", async () =>
     expect(viewModel.lastName).toEqual(player.lastName);
     expect(viewModel.fullName).toEqual(player.firstName + " " + player.lastName);
 
-    const getStat = (label:string) => viewModel.stats?.find(s => s.label === label)?.data;
+    const getStat:any = (label:string) => viewModel.stats?.find(s => s.label === label)?.data;
     expect(getStat("Rank")).toEqual(`#${player.data.rank}`);
     expect(getStat("Weight")).toEqual(`${player.data.weight/1000} kg`);
     expect(getStat("Height")).toEqual(`${player.data.height} cm`);
