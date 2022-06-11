@@ -12,22 +12,9 @@ import {Modal} from "../common/Modal/Modal";
 import {motion} from "framer-motion";
 
 
-const containerStyles = {
-    padding: "4rem",
-}
-
 const titleStyles = {
-    fontSize: theme.fontSizes["2xl"],
-    color: theme.color.white,
     WebkitTextStroke: "3px " + theme.color.primary,
-    marginBottom: "1rem"
 };
-
-const cardContainerStyles = {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "1rem",
-} as React.CSSProperties;
 
 const cardStyles = {
     flex: 1,
@@ -97,38 +84,48 @@ const GeneralStatsPage: React.FC = () => {
         <>
             <Helmet><title>{viewModel.title}</title></Helmet>
             <Modal>
-                <div style={containerStyles}>
-                    <motion.h1 style={titleStyles} variants={titleAnimation} initial="hidden"
-                        animate="visible">{viewModel.title}</motion.h1>
-                    {stats && (<motion.div style={cardContainerStyles} variants={statContainerAnimation} initial="hidden"
-                        animate="visible">
-                        {stats.medianHeightValue &&
-                                <motion.div style={cardStyles} variants={statAnimation}>
-                                    <GeneralStatsCard
-                                        label={stats.medianHeightLabel}
-                                        value={stats.medianHeightValue}
-                                        icon="/assets/images/height.svg"
-                                    />
-                                </motion.div>}
-                        {stats.averageBmiValue &&
-                                <motion.div style={cardStyles} variants={statAnimation}>
-                                    <GeneralStatsCard
-                                        label={stats.averageBmiLabel}
-                                        value={stats.averageBmiValue}
-                                        icon="/assets/images/bmi.svg"
-                                    />
-                                </motion.div>}
-                        {stats.winRatioValue &&
-                                <motion.div style={cardStyles} variants={statAnimation}>
-                                    <GeneralStatsCard
-                                        label={stats.winRatioLabel}
-                                        value={stats.winRatioValue}
-                                        subtitle={stats.winRatioSubtitle}
-                                        icon="/assets/images/ratio.svg"
-                                    />
-                                </motion.div>}
+                <div className="py-6 p-4 md:p-12 lg:p-20">
+                    <motion.h1
+                        className="text-white text-5xl md:text-7xl text-center md:text-left"
+                        style={titleStyles}
+                        variants={titleAnimation}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {viewModel.title}
+                    </motion.h1>
+                    <div className="min-h-[15rem]">
+                        {stats && (<motion.div className="flex flex-wrap gap-4" variants={statContainerAnimation}
+                            initial="hidden"
+                            animate="visible">
+                            {stats.medianHeightValue &&
+                                    <motion.div style={cardStyles} variants={statAnimation}>
+                                        <GeneralStatsCard
+                                            label={stats.medianHeightLabel}
+                                            value={stats.medianHeightValue}
+                                            icon="/assets/images/height.svg"
+                                        />
+                                    </motion.div>}
+                            {stats.averageBmiValue &&
+                                    <motion.div style={cardStyles} variants={statAnimation}>
+                                        <GeneralStatsCard
+                                            label={stats.averageBmiLabel}
+                                            value={stats.averageBmiValue}
+                                            icon="/assets/images/bmi.svg"
+                                        />
+                                    </motion.div>}
+                            {stats.winRatioValue &&
+                                    <motion.div style={cardStyles} variants={statAnimation}>
+                                        <GeneralStatsCard
+                                            label={stats.winRatioLabel}
+                                            value={stats.winRatioValue}
+                                            subtitle={stats.winRatioSubtitle}
+                                            icon="/assets/images/ratio.svg"
+                                        />
+                                    </motion.div>}
 
-                    </motion.div>)}
+                        </motion.div>)}
+                    </div>
                 </div>
             </Modal>
         </>

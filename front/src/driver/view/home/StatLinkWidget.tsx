@@ -1,32 +1,12 @@
 import {Link} from "react-router-dom";
 import React from "react";
-import {theme} from "../theme";
 
-const widgetStyle = {
-    position: "absolute",
-    top: "3rem",
-    right: "3rem"
-} as React.CSSProperties;
-
-const wrapper = {
-    background: theme.color.white,
-    borderRadius: "10rem",
-    padding: "1rem",
-    height: "2rem",
-    width: "2rem",
-}
-
-const iconStyle = {
-    objectFit: "contain",
-    width: "100%",
-    height: "100%",
-} as React.CSSProperties;
 
 export const StatLinkWidget: React.FC = () => {
-    return <div style={widgetStyle}>
+    return <div className="my-12 md:absolute md:my-0 top-0 right-0 flex justify-end">
         <Link to={"/stats"} title={"Statistics"}>
-            <div style={wrapper}>
-                <img style={iconStyle} src="/assets/images/trophy.svg" alt="Statistics"/>
+            <div className="bg-white rounded-full p-4 h-16 w-16">
+                <img className="object-contain" src="/assets/images/trophy.svg" alt="Statistics"/>
             </div>
         </Link>
     </div>;

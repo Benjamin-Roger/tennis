@@ -7,13 +7,7 @@ import {Helmet} from "react-helmet";
 import {PlayerApi} from "../../api/PlayerApi";
 import {PlayerCards} from "../home/PlayerCards";
 import {StatLinkWidget} from "../home/StatLinkWidget";
-
-const containerStyles = {
-    width: "24rem",
-    maxWidth: "100%",
-    marginTop: "3rem"
-};
-
+import Container from "../common/Layout/Container";
 
 
 const HomePage: React.FC = () => {
@@ -55,13 +49,17 @@ const HomePage: React.FC = () => {
     return (
         <>
             <Helmet><title>{viewModel.title}</title></Helmet>
-            <StatLinkWidget />
+            <Container>
+                <div className="relative">
+                    <StatLinkWidget/>
+                    <div className="md:mt-12 w-full md:w-1/2 lg:w-1/3">
+                        <SearchInputFilter value={keyword} onChange={handleKeyword}
+                            placeholder={viewModel.buttonLabel}/>
+                        {players && players.length > 0 && <PlayerCards players={players}/>}
+                    </div>
+                </div>
+            </Container>
 
-            <div style={containerStyles}>
-
-                <SearchInputFilter value={keyword} onChange={handleKeyword} placeholder={viewModel.buttonLabel}/>
-                {players && players.length > 0 && <PlayerCards players={players}/>}
-            </div>
         </>
     )
 }

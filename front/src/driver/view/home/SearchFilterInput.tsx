@@ -1,5 +1,5 @@
 import React, {SetStateAction} from "react";
-import {theme} from "../theme";
+import "./search-input.css";
 
 type SearchFilterInputProps = {
     value:string;
@@ -7,22 +7,9 @@ type SearchFilterInputProps = {
     placeholder:string;
 }
 
-const inputStyles = {
-    width: "calc(100% - 1rem)",
-    background: theme.color.black,
-    color: theme.color.secondary,
-    padding: "1rem 0.5rem",
-    marginBottom: "3rem",
-    borderRadius: ".5rem",
-    fontWeight: "bold",
-    border: "none",
-    boxShadow: "none"
-
-}
-
 export const SearchInputFilter:React.FC<SearchFilterInputProps> = ({value, onChange, placeholder}) => (
     <input
-        style={inputStyles}
+        className="search-input w-full py-4 px-6 mb-12 rounded-md font-bold bg-black text-white"
         value={value}
         onChange={onChange}
         placeholder={placeholder}

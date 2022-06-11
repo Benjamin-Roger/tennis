@@ -1,25 +1,19 @@
 import React from "react";
 
-const layoutStyles = {
-    margin: "0 3rem",
-    flex: 1,
-}
 
 const containerStyles = {
-    margin: "0 auto",
     maxWidth: "1600px",
 }
 
 type LayoutProps = {
     children: React.ReactNode,
-    style?: React.CSSProperties
 }
 
-const Layout: React.FC<LayoutProps> = ({children, style}) => (
-    <div style={{...layoutStyles, ...style}}>
-        <div style={containerStyles}>
+const Container: React.FC<LayoutProps> = ({children}) => (
+    <div className="my-0 mx-4 md:mx-12 lg:mx-24 w-auto">
+        <div style={containerStyles} className="w-full my-0 mx-auto">
             {children}
         </div>
     </div>);
 
-export default Layout;
+export default Container;
