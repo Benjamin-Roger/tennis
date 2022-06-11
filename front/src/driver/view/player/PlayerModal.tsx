@@ -1,11 +1,9 @@
 import {PlayerStat} from "../../../interface-adapter/viewModel/PlayerDetailPage/PlayerDetailViewModel";
-import {Link} from "react-router-dom";
 import React from "react";
 import {motion} from "framer-motion"
 import {PlayerStatCard} from "../home/PlayerStatCard";
-import Container from "../common/Layout/Container";
 import {theme} from "../theme";
-import {PlayerModalExit} from "./PlayerModalExit";
+import {Modal} from "../common/Modal/Modal";
 
 type PlayerModalProps = {
     firstName: string,
@@ -18,32 +16,15 @@ type PlayerModalProps = {
     stats?: PlayerStat[]
 }
 
-
-const backgroundStyle = {
-    position: "absolute",
-    height: "100%",
-    width: "100%",
-    overflow: "hidden",
-    top: 0,
-    left: 0,
-    backgroundColor: theme.color.black,
-    display: "flex",
-    alignItems: "flex-end",
-} as React.CSSProperties;
-
 const containerStyle = {
-    background: "#fff",
     display: "grid",
     gridTemplateColumns: "14% 66% 20%",
-    margin: "0 5rem",
     position: "relative",
-    height: "85vh",
-    maxHeight: "1200px",
+    height: "100%",
 } as React.CSSProperties
 
 const textContainerStyle = {
     paddingTop: "3rem",
-    height: containerStyle.height,
     overflow: "scroll",
 }
 
@@ -52,6 +33,7 @@ const firstNameStyle = {
     color: theme.color.white,
     WebkitTextStroke: "3px " + theme.color.primary,
 };
+
 const lastNameStyle = {
     fontSize: theme.fontSizes["3xl"],
     fontWeight: "900",
@@ -153,7 +135,7 @@ const animations = {
             transition: {
                 delay: 0.35,
                 duration: .5,
-                ease:"easeOut",
+                ease: "easeOut",
             }
         }
     },
@@ -171,49 +153,44 @@ export const PlayerModal: React.FC<PlayerModalProps> = ({
 }) => {
 
     return (
-        <div style={backgroundStyle}>
-            <Container>
-                <div style={{textAlign: "center"}}>
-                    <div style={{width: "2rem", margin: "1rem auto"}}><Link to={"/"}><PlayerModalExit/></Link></div>
+        <Modal>
+            <section style={containerStyle}>
+                <div style={pictureContainerStyle}>
+                    <motion.img style={pictureStyle} src={playerPicture} alt={lastName} title={fullName}
+                        variants={animations.picture} initial="hidden" animate="visible"/>
                 </div>
-                <section style={containerStyle}>
-                    <div style={pictureContainerStyle}>
-                        <motion.img style={pictureStyle} src={playerPicture} alt={lastName} title={fullName}
-                            variants={animations.picture} initial="hidden" animate="visible"/>
+                <div className="hide-scrollbar" style={textContainerStyle}>
+                    <motion.h1 variants={animations.title} initial="hidden" animate="visible">
+                        <span style={firstNameStyle}>{firstName}</span>
+                        <br/>
+                        <span style={lastNameStyle}>{lastName}</span>
+                    </motion.h1>
+                    {stats && (
+                        <motion.div style={descriptionContainer} variants={animations.statsContainer}
+                            initial="hidden"
+                            animate="visible">
+                            {
+                                stats.map(stat => stat.data &&
+                                    <motion.div key={stat.label + stat.data} variants={animations.stats}>
+                                        <PlayerStatCard label={stat.label} data={stat.data}/>
+                                    </motion.div>
+                                )
+                            }
+                        </motion.div>)
+                    }
+                </div>
+                <div style={extraInfoContainerStyle}>
+                    <div style={countryInfoStyle}>
+                        <img
+                            style={countryPictureStyle}
+                            src={countryPicture}
+                            title={countryName}
+                            alt={countryName}/>
+                        <p style={countryCodeStyle}>{countryCode}</p>
                     </div>
-                    <div className="hide-scrollbar" style={textContainerStyle}>
-                        <motion.h1 variants={animations.title} initial="hidden" animate="visible">
-                            <span style={firstNameStyle}>{firstName}</span>
-                            <br/>
-                            <span style={lastNameStyle}>{lastName}</span>
-                        </motion.h1>
-                        {stats && (
-                            <motion.div style={descriptionContainer} variants={animations.statsContainer}
-                                initial="hidden"
-                                animate="visible">
-                                {
-                                    stats.map(stat => stat.data &&
-                                        <motion.div key={stat.label + stat.data} variants={animations.stats}>
-                                            <PlayerStatCard label={stat.label} data={stat.data}/>
-                                        </motion.div>
-                                    )
-                                }
-                            </motion.div>)
-                        }
-                    </div>
-                    <div style={extraInfoContainerStyle}>
-                        <div style={countryInfoStyle}>
-                            <img
-                                style={countryPictureStyle}
-                                src={countryPicture}
-                                title={countryName}
-                                alt={countryName}/>
-                            <p style={countryCodeStyle}>{countryCode}</p>
-                        </div>
-                    </div>
-                </section>
-            </Container>
-        </div>
+                </div>
+            </section>
+        </Modal>
     )
 }
 

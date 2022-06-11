@@ -1,6 +1,6 @@
 import {SinglePlayerSummary} from "../../../interface-adapter/viewModel/HomePage/HomeViewModel";
 import {Link} from "react-router-dom";
-import {PlayerSummaryCard} from "../home/PlayerSummaryCard";
+import {PlayerSummaryCard} from "./PlayerSummaryCard";
 import React from "react";
 import {motion} from "framer-motion";
 

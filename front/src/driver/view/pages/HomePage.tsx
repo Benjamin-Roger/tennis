@@ -5,7 +5,8 @@ import {HomePageController} from "../../../interface-adapter/controller/HomePage
 import {SearchInputFilter} from "../home/SearchFilterInput";
 import {Helmet} from "react-helmet";
 import {PlayerApi} from "../../api/PlayerApi";
-import {PlayerCards} from "./PlayerCards";
+import {PlayerCards} from "../home/PlayerCards";
+import {StatLinkWidget} from "../home/StatLinkWidget";
 
 const containerStyles = {
     width: "24rem",
@@ -54,6 +55,7 @@ const HomePage: React.FC = () => {
     return (
         <>
             <Helmet><title>{viewModel.title}</title></Helmet>
+            <StatLinkWidget />
 
             <div style={containerStyles}>
 
