@@ -19,14 +19,12 @@ public class PlayerRestController {
         this.controller = new PlayerController(new PlayerGateway(repository), new PlayerPresenter());
     }
 
-    @CrossOrigin
     @GetMapping("/summaries")
     public @ResponseBody GetPlayersSummariesResponse getPlayersSummaries() {
         this.controller.getPlayerSummaries();
         return this.controller.getPresenter().getPlayerSummariesResponse();
     }
 
-    @CrossOrigin
     @GetMapping("/{id}")
     public @ResponseBody GetPlayerDetailResponse getPlayerById(@PathVariable String id) {
         this.controller.getPlayerDetail(id);

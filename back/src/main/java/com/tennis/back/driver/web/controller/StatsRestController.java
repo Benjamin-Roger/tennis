@@ -17,8 +17,6 @@ public class StatsRestController {
     public StatsRestController(LocalMemoryPlayerRepository repository) {
         this.controller = new StatsController(new PlayerGateway(repository));
     }
-
-    @CrossOrigin
     @GetMapping
     public @ResponseBody GeneralStatsDTOModel getPlayersSummaries() {
         StatsPresenter presenter = new StatsPresenter();
