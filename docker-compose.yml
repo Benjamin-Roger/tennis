@@ -1,0 +1,18 @@
+services:
+  back:
+    build: "./back"
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+  front:
+    build: "./front"
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "80:80"
+
+networks:
+  frontend:
+  backend:
