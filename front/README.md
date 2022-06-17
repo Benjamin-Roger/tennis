@@ -1,46 +1,59 @@
-# Getting Started with Create React App
+# Tennis app - Front End
+This app displays data fetched from tennis back-end.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Scope
+This application is made in React with Create-React-App. It displays:
+- a homepage with a list of tennis players, that can be filtered by their name and country name
+- a detailed player page with the player's statistics
+- a statistics page with general data
 
-## Available Scripts
+## Technologies used
+- React for UI
+- create-react-app to build the static files
+- Tailwind for styles
+- Eslint to ensure proper code formatting
+- framer-motion for animations
+- jest for testing
 
-In the project directory, you can run:
+## Launch the application
+Create a .env file with the following values to fetch data from the back app API
+```markdown
+REACT_APP_BASE_API_URL=<BACK_API>
+REACT_APP_PLAYER_SUMMARIES_PATH=<PATH_TO_GET_PLAYER_SUMMARIES>
+REACT_APP_PLAYER_DETAIL_PATH=<PATH_TO_GET_PLAYER_DETAIL>
+REACT_APP_GENERAL_STATS_PATH=<PATH_TO_GET_GENERAL_STATS
+```
 
-### `npm start`
+Example:
+```markdown
+REACT_APP_BASE_API_URL=http://localhost:8080/
+REACT_APP_PLAYER_SUMMARIES_PATH=player/summaries
+REACT_APP_PLAYER_DETAIL_PATH=player/%id%
+REACT_APP_GENERAL_STATS_PATH=stats
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To start, run the following
+```sh
+npm ci && npm start
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Content & architecture
+The app has been build following the principles of clean-architecture: entities, use cases, interface adapters and drivers/framework.
 
-### `npm test`
+The files are sorted as such:
+- /infra: files used for the Docker image configuration
+- /src:
+  - /data: files necessary for front-end logic (country name translations, etc.)
+  - /domain:
+    - /entity: includes the base entity, a player
+    - /useCase: different use cases, one for each page in our case (display single player, display filtered player summaries, general stats)
+  - /interface-adapter: includes the presenters, gateways, controllers, interactors
+  - /drivers:
+    - /api: code to fetch information from the API
+    - /view: React code to display the UI
+    - /service: code used for routing, as various utils
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The goal of this architecture was to make the core business logic depend as little as possible:
+- on the source data, either its format or its sources
+- on the library used for UI, which contains no logic at all, it only displays the data in templates
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
