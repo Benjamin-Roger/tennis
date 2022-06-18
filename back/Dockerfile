@@ -3,7 +3,7 @@ FROM adoptopenjdk/maven-openjdk11 as builder
 COPY src /usr/src/app/src
 COPY pom.xml /usr/src/app
 
-RUN mvn -f /usr/src/app/pom.xml clean package
+RUN mvn -f /usr/src/app/pom.xml clean package -DskipTests
 
 FROM openjdk:11
 
