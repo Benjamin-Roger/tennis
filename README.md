@@ -4,7 +4,7 @@ Both back-end and front-end applications have been built on Clean Architecture p
 
 ## Launch the application
 
-Make sure to have Docker and docker-composed installed.
+Make sure to have Docker and docker-compose (with version above 2) installed.
 
 To start the application, run at the root of the repository: 
 ```shell
@@ -16,6 +16,7 @@ Once the images are built, run:
 docker-compose up
 ```
 
+Open the http://localhost in your browser.
 
 ## Architecture
 ### Back
@@ -26,7 +27,7 @@ The back application gets data about players from differents sources and stores 
 The app is packaged by a Dockerfile in /back.
 
 ### Front
-The front application is made in React with Create-React-App. It displays:
+The front application is made in React with Create React App. It displays:
 - a homepage with a list of tennis players
 - a detailed player page with the player's statistics
 - a statistics page with general data

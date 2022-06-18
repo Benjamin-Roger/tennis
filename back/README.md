@@ -15,6 +15,7 @@ This application exposes API that return:
 
 On startup, it fetches and stores data in memory. This data is fetched from:
 - l'Atelier's API for general player data
+  - on failure, the app will use a local file as fallback
 - WTA and ATP data for missing information (birthday/age) from https://github.com/JeffSackmann/tennis_atp and https://github.com/JeffSackmann/tennis_wta
 
 ## Launch the application
