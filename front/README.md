@@ -47,7 +47,7 @@ The files are sorted as such:
   - /domain:
     - /entity: includes the base entity, a player
     - /useCase: different use cases, one for each page in our case (display single player, display filtered player summaries, general stats)
-  - /interface-adapter: includes the presenters, gateways, controllers, interactors
+  - /interface-adapter: includes the presenters, gateways, controllers, interactors, view models
   - /drivers:
     - /api: code to fetch information from the API
     - /view: React code to display the UI
